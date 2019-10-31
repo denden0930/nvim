@@ -1,0 +1,3146 @@
+<!DOCTYPE html>
+<!-- saved from url=(0022)http://localhost:3000/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Dictionary</title><meta name="csrf-param" content="authenticity_token">
+<meta name="csrf-token" content="p7AF+lnOlEX1f8FNZpzm0uzlitXghmQjL1jf+34OZm7xSzJoeThM2DlG9SPFbSVLzeFrVhsZ/w2ewUqzA9pC3Q=="><link rel="stylesheet" media="all" href="./Dictionary_files/fonts.self-9e8865034169a5f7b2bb9be4fa9eb3e6c18121ceb26dc536f5ca0202c855bce2.css" data-turbolinks-track="reload">
+<link rel="stylesheet" media="all" href="./Dictionary_files/java.self-83c60b62a9895ed0027bd1e8cf4bc698b157fc7484015c9a11b4c59d0276344f.css" data-turbolinks-track="reload">
+<link rel="stylesheet" media="all" href="./Dictionary_files/webshops.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css" data-turbolinks-track="reload">
+<link rel="stylesheet" media="all" href="./Dictionary_files/application.self-f0d704deea029cf000697e2c0181ec173a1b474645466ed843eb5ee7bb215794.css" data-turbolinks-track="reload"><script src="./Dictionary_files/rails-ujs.self-d109d8c5c0194c8ad60b8838b2661c5596b5c955987f7cd4045eb2fb90ca5343.js.ダウンロード" data-turbolinks-track="reload"></script>
+<script src="./Dictionary_files/activestorage.self-1ed4604ac2170045f1ffca4edb81a75246661555e4f9cf682bb8a21825e32e1c.js.ダウンロード" data-turbolinks-track="reload"></script>
+<script src="./Dictionary_files/turbolinks.self-569ee74eaa15c1e2019317ff770b8769b1ec033a0f572a485f64c82ddc8f989e.js.ダウンロード" data-turbolinks-track="reload"></script>
+<script src="./Dictionary_files/action_cable.self-69fddfcddf4fdef9828648f9330d6ce108b93b82b0b8d3affffc59a114853451.js.ダウンロード" data-turbolinks-track="reload"></script>
+<script src="./Dictionary_files/cable.self-8484513823f404ed0c0f039f75243bfdede7af7919dda65f2e66391252443ce9.js.ダウンロード" data-turbolinks-track="reload"></script>
+<script src="./Dictionary_files/three.min.self-af4f1c7f14df12611733e1f7515d2f7c1bb713807c4624ab12c770663dbed8a9.js.ダウンロード" data-turbolinks-track="reload"></script>
+<script src="./Dictionary_files/webshops.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js.ダウンロード" data-turbolinks-track="reload"></script>
+<script src="./Dictionary_files/application.self-66347cf0a4cb1f26f76868b4697a9eee457c8c3a6da80c6fdd76ff77e911715e.js.ダウンロード" data-turbolinks-track="reload"></script><script src="./Dictionary_files/jquery.min.js.ダウンロード"></script></head><body style="padding: 10px;"><div id="contents"><java1-----------------------if>,初期化,ランダム数値設定</java1-----------------------if><div class="java1"><div class="body"><h1>Number guessing game</h1><p>We have selected a random number between 1 and 100. See if you can guess it in 10 turns or fewer. We'll tell you if your guess was too high or too low.</p><div class="form"><label for="guessField">Enter a guess:</label><input class="guessField" id="guessField" type="text"><input class="guessSubmit" type="submit" value="Submit guess"></div><div class="resultParas"><p class="guesses"></p><p class="lastResult"></p><p class="lowOrHi"></p></div><p>javascript構文</p></div></div><script>window.addEventListener("DOMContentLoaded", function(){
+//document.querySelector('.guesses')は要素の全てを取得する。→例：<p class="guesses"></p>
+  var randomNumber = Math.floor(Math.random() * 100) + 1,
+    guesses = document.querySelector('.guesses'),
+    lastResult = document.querySelector('.lastResult'),
+    lowOrHi = document.querySelector('.lowOrHi'),
+    guessSubmit = document.querySelector('.guessSubmit'),
+    guessField = document.querySelector('.guessField'),
+    guessCount = 1,
+    resetButton;
+  guessField.focus();
+  function checkGuess() {
+    var userGuess = Number(guessField.value);
+    if (guessCount === 1) {
+      guesses.textContent = '前回の予想: ';
+    }
+    guesses.textContent += userGuess + ' ';
+    if (userGuess === randomNumber) {
+      lastResult.textContent = 'おめでとう! 正解です!';
+      lastResult.style.backgroundColor = 'green';
+      lowOrHi.textContent = '';
+      setGameOver();
+    }else if (guessCount === 10) {
+      lastResult.textContent = '!!!ゲームオーバー!!!';
+      setGameOver();
+    }else {
+      lastResult.textContent = '間違いです!';
+      lastResult.style.backgroundColor = 'red';
+      if(userGuess < randomNumber) {
+         lowOrHi.textContent='今の予想は小さすぎです!もっと大きな数字です。' ;
+      } else if(userGuess > randomNumber) {
+         lowOrHi.textContent = '今の予想は大きすぎです!もっと小さな数字です。';
+      }
+    }
+    guessCount++;
+    guessField.value = '';
+    guessField.focus();
+  }
+  guessSubmit.addEventListener('click', checkGuess);
+  function setGameOver() {
+    guessField.disabled = true;
+    guessSubmit.disabled = true;
+    resetButton = document.createElement('button');
+    resetButton.textContent = '新しいゲームを始める';
+    //$('.resultParas').append(resetButton);
+    var reference = document.querySelector('.guesses'),
+      parent = reference.parentNode;
+    parent.insertBefore(resetButton, reference);
+    resetButton.addEventListener('click', resetGame);
+  }
+  function resetGame() {
+    guessCount = 1;
+    var resetParas = document.querySelectorAll('.resultParas p');
+    for (var i = 0 ; i < resetParas.length ; i++) {
+      resetParas[i].textContent = '';
+    }
+    resetButton.parentNode.removeChild(resetButton);
+    guessField.disabled = false;
+    guessSubmit.disabled = false;
+    guessField.value = '';
+    guessField.focus();
+    lastResult.style.backgroundColor = 'white';
+    randomNumber = Math.floor(Math.random() * 100) + 1;
+  }
+}());</script><p>guessField.value = 'Hello';</p><p>guesses.style.backgroundColor = 'yellow';</p><p>guesses.style.fontSize = '200%';</p><p>guesses.style.padding = '10px';</p><p>guesses.style.boxShadow = '3px 3px 6px black';</p><pre style="background-color: rgb(240, 240, 240);">window.addEventListener("DOMContentLoaded", function(){
+//document.querySelector('.guesses')は要素の全てを取得する。→例：&lt;p class="guesses"&gt;&lt;/p&gt;
+  var randomNumber = Math.floor(Math.random() * 100) + 1,
+    guesses = document.querySelector('.guesses'),
+    lastResult = document.querySelector('.lastResult'),
+    lowOrHi = document.querySelector('.lowOrHi'),
+    guessSubmit = document.querySelector('.guessSubmit'),
+    guessField = document.querySelector('.guessField'),
+    guessCount = 1,
+    resetButton;
+  guessField.focus();
+  function checkGuess() {
+    var userGuess = Number(guessField.value);
+    if (guessCount === 1) {
+      guesses.textContent = '前回の予想: ';
+    }
+    guesses.textContent += userGuess + ' ';
+    if (userGuess === randomNumber) {
+      lastResult.textContent = 'おめでとう! 正解です!';
+      lastResult.style.backgroundColor = 'green';
+      lowOrHi.textContent = '';
+      setGameOver();
+    }else if (guessCount === 10) {
+      lastResult.textContent = '!!!ゲームオーバー!!!';
+      setGameOver();
+    }else {
+      lastResult.textContent = '間違いです!';
+      lastResult.style.backgroundColor = 'red';
+      if(userGuess &lt; randomNumber) {
+         lowOrHi.textContent='今の予想は小さすぎです!もっと大きな数字です。' ;
+      } else if(userGuess &gt; randomNumber) {
+         lowOrHi.textContent = '今の予想は大きすぎです!もっと小さな数字です。';
+      }
+    }
+    guessCount++;
+    guessField.value = '';
+    guessField.focus();
+  }
+  guessSubmit.addEventListener('click', checkGuess);
+  function setGameOver() {
+    guessField.disabled = true;
+    guessSubmit.disabled = true;
+    resetButton = document.createElement('button');
+    resetButton.textContent = '新しいゲームを始める';
+    //$('.resultParas').append(resetButton);
+    var reference = document.querySelector('.guesses'),
+      parent = reference.parentNode;
+    parent.insertBefore(resetButton, reference);
+    resetButton.addEventListener('click', resetGame);
+  }
+  function resetGame() {
+    guessCount = 1;
+    var resetParas = document.querySelectorAll('.resultParas p');
+    for (var i = 0 ; i &lt; resetParas.length ; i++) {
+      resetParas[i].textContent = '';
+    }
+    resetButton.parentNode.removeChild(resetButton);
+    guessField.disabled = false;
+    guessSubmit.disabled = false;
+    guessField.value = '';
+    guessField.focus();
+    lastResult.style.backgroundColor = 'white';
+    randomNumber = Math.floor(Math.random() * 100) + 1;
+  }
+}());</pre><p>--------------java2----------------------文章の置換</p><div class="java2"><label for="customname">Enter custom name:</label><input id="customname" placeholder="" type="text"></div><div class="java2"><label for="us">US</label><input id="us" type="radio" name="ukus" value="us" checked=""><label for="uk">UK</label><input id="uk" name="ukus" type="radio" value="uk"></div><div class="java2"><button class="randomize">Generate random story</button></div><!-- Thanks a lot to Willy Aguirre for his help with the code for this assessment --><p class="story"></p><p>javascript構文</p><script>window.addEventListener("DOMContentLoaded", function(){
+  var customName = document.getElementById('customname'),
+    randomize = document.querySelector('.randomize'),
+    story = document.querySelector('.story');
+  //０～最大値arrayの整数を返す。
+  function randomValueFromArray(array){
+    return array[Math.floor(Math.random()*array.length)];
+  }
+  var storyText =[
+                  "外は 94 fahrenheit だったので、 :insertx: 散歩に出かけた。",
+                  "彼らが :inserty: に着いたとき、彼らはしばらくの間恐怖をじっと見つめ、それから :insertz: 。",
+                  "Bobは全部を見ましたが、驚くことではありませんでしたか？ :insertx: 300 pounds 。",
+                  "そして暑い日でした。"
+                  ].join(''),
+    insertX = ["ゴブリンのウィリー","ビッグ・ダディ","サンタクロース"],
+    insertY = ["スープキッチン","ディズニーランド","ホワイトハウス"],
+    insertZ = ["自発的に燃焼した","歩道の水溜りに溶けた","ナメクジになって這い出した"];
+  randomize.addEventListener('click', result);
+  function result() {
+    var newStory = storyText,
+           xItem = randomValueFromArray(insertX),
+           yItem = randomValueFromArray(insertY),
+           zItem = randomValueFromArray(insertZ);
+  newStory = newStory.replace(':insertx:',xItem);
+  newStory = newStory.replace(':insertx:',xItem);
+  newStory = newStory.replace(':inserty:',yItem);
+  newStory = newStory.replace(':insertz:',zItem);
+  if(customName.value !== '') {
+    var name = customName.value;
+    newStory = newStory.replace('Bob',name);
+  }
+  if(document.getElementById("uk").checked) {
+    var weight = Math.round(300*0.0714286) + 'stone',
+      temperature =  Math.round((94-32) * 5 / 9) + 'centigrade';
+    newStory = newStory.replace('94 fahrenheit',temperature);
+    newStory = newStory.replace('300 pounds',weight);
+  }
+    story.textContent = newStory;
+    story.style.visibility = 'visible';
+  }
+}());</script><pre style="background-color: rgb(240, 240, 240);">window.addEventListener("DOMContentLoaded", function(){
+  var customName = document.getElementById('customname'),
+    randomize = document.querySelector('.randomize'),
+    story = document.querySelector('.story');
+  //０～最大値arrayの整数を返す。
+  function randomValueFromArray(array){
+    return array[Math.floor(Math.random()*array.length)];
+  }
+  var storyText =[
+                  "外は 94 fahrenheit だったので、 :insertx: 散歩に出かけた。",
+                  "彼らが :inserty: に着いたとき、彼らはしばらくの間恐怖をじっと見つめ、それから :insertz: 。",
+                  "Bobは全部を見ましたが、驚くことではありませんでしたか？ :insertx: 300 pounds 。",
+                  "そして暑い日でした。"
+                  ].join(''),
+    insertX = ["ゴブリンのウィリー","ビッグ・ダディ","サンタクロース"],
+    insertY = ["スープキッチン","ディズニーランド","ホワイトハウス"],
+    insertZ = ["自発的に燃焼した","歩道の水溜りに溶けた","ナメクジになって這い出した"];
+  randomize.addEventListener('click', result);
+  function result() {
+    var newStory = storyText,
+           xItem = randomValueFromArray(insertX),
+           yItem = randomValueFromArray(insertY),
+           zItem = randomValueFromArray(insertZ);
+  newStory = newStory.replace(':insertx:',xItem);
+  newStory = newStory.replace(':insertx:',xItem);
+  newStory = newStory.replace(':inserty:',yItem);
+  newStory = newStory.replace(':insertz:',zItem);
+  if(customName.value !== '') {
+    var name = customName.value;
+    newStory = newStory.replace('Bob',name);
+  }
+  if(document.getElementById("uk").checked) {
+    var weight = Math.round(300*0.0714286) + 'stone',
+      temperature =  Math.round((94-32) * 5 / 9) + 'centigrade';
+    newStory = newStory.replace('94 fahrenheit',temperature);
+    newStory = newStory.replace('300 pounds',weight);
+  }
+    story.textContent = newStory;
+    story.style.visibility = 'visible';
+  }
+}());</pre><p>--------------java3----------------------switch</p><p 条件式="">? こちらのコードを実行する : 代わりにこちらのコードを実行する</p><div class="java3"><label for="theme">テーマを選んでください:</label><select id="theme"><option value="white">白</option><option value="black">黒</option><option value="purple">紫</option><option value="yellow">黄</option><option value="psychedelic">サイケ</option></select><h1 class="output">私のウェブサイト</h1><p>javascript構文</p></div><script>window.addEventListener("DOMContentLoaded", function(){
+  var java3 = document.querySelector(".java3"),
+    select = java3.querySelector('select'),
+    html = java3.querySelector('.output');
+  document.body.style.padding = '10px';
+  select.onchange = function() {
+    choice = select.value;
+    switch(choice) {
+      case 'black':
+      update('black','white');
+      break;
+      case 'white':
+      update('white','black');
+      break;
+      case 'purple':
+      update('purple','white');
+      break;
+      case 'yellow':
+      update('yellow','darkgray');
+      break;
+      case 'psychedelic':
+      update('lime','purple');
+      break;
+    }
+  };
+  function update(bgColor, textColor) {
+    html.style.backgroundColor = bgColor;
+    html.style.color = textColor;
+  }
+}());</script><pre style="background-color: rgb(240, 240, 240);">window.addEventListener("DOMContentLoaded", function(){
+  var java3 = document.querySelector(".java3"),
+    select = java3.querySelector('select'),
+    html = java3.querySelector('.output');
+  document.body.style.padding = '10px';
+  select.onchange = function() {
+    choice = select.value;
+    switch(choice) {
+      case 'black':
+      update('black','white');
+      break;
+      case 'white':
+      update('white','black');
+      break;
+      case 'purple':
+      update('purple','white');
+      break;
+      case 'yellow':
+      update('yellow','darkgray');
+      break;
+      case 'psychedelic':
+      update('lime','purple');
+      break;
+    }
+  };
+  function update(bgColor, textColor) {
+    html.style.backgroundColor = bgColor;
+    html.style.color = textColor;
+  }
+}());</pre><p>----java4----ループ</p><div class="java4"><button class="java4_0">更新</button><canvas class="java4" height="0" width="0"></canvas><p>javascript構文</p></div><script>window.addEventListener("DOMContentLoaded", function(){
+  var java4 = document.querySelector(".java4"),
+    btn = java4.querySelector('button');
+  function draw() {
+    var canvas = java4.querySelector('canvas'),
+      ctx = canvas.getContext('2d'), //図形表示のための取得
+      WIDTH = document.documentElement.clientWidth,//ピクセル単位で要素の内側の寸法を表します
+      HEIGHT = document.documentElement.clientHeight;//ピクセル単位で要素の内側の寸法を表します
+    canvas.width = WIDTH;
+    canvas.height = HEIGHT;
+    function random(number) {
+      return Math.floor(Math.random()*number);
+    };
+    ctx.clearRect(0,0,WIDTH,HEIGHT);
+    for (var i = 0; i < 100; i++) {
+      ctx.beginPath(); //描写のリセット
+      ctx.fillStyle = 'rgba(255,0,0,0.5)';
+      ctx.arc(random(WIDTH), random(HEIGHT), random(50), 0, 2 * Math.PI); //"Math.PIは円周率を返す。"
+      ctx.fill();//canvasメソッド。現在の塗りつぶしスタイルで、サブパスを塗りつぶします。
+    };
+  };
+  btn.addEventListener('click',draw);
+}());</script><pre style="background-color: rgb(240, 240, 240);">window.addEventListener("DOMContentLoaded", function(){
+  var java4 = document.querySelector(".java4"),
+    btn = java4.querySelector('button');
+  function draw() {
+    var canvas = java4.querySelector('canvas'),
+      ctx = canvas.getContext('2d'), //図形表示のための取得
+      WIDTH = document.documentElement.clientWidth,//ピクセル単位で要素の内側の寸法を表します
+      HEIGHT = document.documentElement.clientHeight;//ピクセル単位で要素の内側の寸法を表します
+    canvas.width = WIDTH;
+    canvas.height = HEIGHT;
+    function random(number) {
+      return Math.floor(Math.random()*number);
+    };
+    ctx.clearRect(0,0,WIDTH,HEIGHT);
+    for (var i = 0; i &lt; 100; i++) {
+      ctx.beginPath(); //描写のリセット
+      ctx.fillStyle = 'rgba(255,0,0,0.5)';
+      ctx.arc(random(WIDTH), random(HEIGHT), random(50), 0, 2 * Math.PI); //"Math.PIは円周率を返す。"
+      ctx.fill();//canvasメソッド。現在の塗りつぶしスタイルで、サブパスを塗りつぶします。
+    };
+  };
+  btn.addEventListener('click',draw);
+}());</pre><p>---コピー　キャンバスを使った画像描写---</p><h1>画像を選択してください。</h1><form id="my_form"><input accept="image/jpeg,image/png" id="ufile" name="ufile" type="file"></form><br><hr><div><h1>プレビュー</h1><canvas id="cnvs"></canvas></div><p>javascript構文</p><script>window.addEventListener("DOMContentLoaded", function(){
+  $(function(){
+    // id="ufile"の変化でコールバック
+    $("#ufile").change(function(){
+      // 選択ファイルの有無をチェック
+      if (!this.files.length) {
+        alert('ファイルが選択されていません');
+        return;
+      }
+      // Formからファイルを取得
+      var file = this.files[0];
+      // (1) HTMLのCanvas要素の取得
+      var canvas = $("#cnvs");
+      // (2) getContext()メソッドで描画機能を有効にする
+      var ctx = canvas[0].getContext('2d');
+      // 描画イメージインスタンス化
+      var image = new Image();
+      // File API FileReader Objectでローカルファイルにアクセス
+      var fr = new FileReader();
+      // ファイル読み込み読み込み完了後に実行 [非同期処理]
+      fr.onload = function(evt) {
+        // 画像がロードされた後にcanvasに描画を行う [非同期処理]
+        image.onload = function() {
+          // (3) プレビュー(Cnavas)のサイズを指定
+          var cnvsH = 240;
+          var cnvsW = image.naturalWidth*cnvsH/image.naturalHeight;
+          // (4) Cnavasにサイズアトリビュートを設定する
+          canvas.attr('width', cnvsW);
+          canvas.attr('height', cnvsH);
+          // (5) 描画
+          ctx.drawImage(image, 0, 0, cnvsW, cnvsH);
+        }
+        // 読み込んだ画像をimageのソースに設定
+        image.src = evt.target.result;
+      }
+      // fileを読み込む データはBase64エンコードされる
+      fr.readAsDataURL(file);
+    })
+  });
+}());</script><pre style="background-color: rgb(240, 240, 240);">window.addEventListener("DOMContentLoaded", function(){
+  $(function(){
+    // id="ufile"の変化でコールバック
+    $("#ufile").change(function(){
+      // 選択ファイルの有無をチェック
+      if (!this.files.length) {
+        alert('ファイルが選択されていません');
+        return;
+      }
+      // Formからファイルを取得
+      var file = this.files[0];
+      // (1) HTMLのCanvas要素の取得
+      var canvas = $("#cnvs");
+      // (2) getContext()メソッドで描画機能を有効にする
+      var ctx = canvas[0].getContext('2d');
+      // 描画イメージインスタンス化
+      var image = new Image();
+      // File API FileReader Objectでローカルファイルにアクセス
+      var fr = new FileReader();
+      // ファイル読み込み読み込み完了後に実行 [非同期処理]
+      fr.onload = function(evt) {
+        // 画像がロードされた後にcanvasに描画を行う [非同期処理]
+        image.onload = function() {
+          // (3) プレビュー(Cnavas)のサイズを指定
+          var cnvsH = 240;
+          var cnvsW = image.naturalWidth*cnvsH/image.naturalHeight;
+          // (4) Cnavasにサイズアトリビュートを設定する
+          canvas.attr('width', cnvsW);
+          canvas.attr('height', cnvsH);
+          // (5) 描画
+          ctx.drawImage(image, 0, 0, cnvsW, cnvsH);
+        }
+        // 読み込んだ画像をimageのソースに設定
+        image.src = evt.target.result;
+      }
+      // fileを読み込む データはBase64エンコードされる
+      fr.readAsDataURL(file);
+    })
+  });
+}());</pre><p class="java4">私の猫の名前は、ビル、ジェフ、ピート、ビッグルズ、ジャスミン、</p><p>javascript構文</p><script>window.addEventListener("DOMContentLoaded", function(){
+  var cats = ['ビル', 'ジェフ', 'ピート', 'ビッグルズ', 'ジャスミン'],
+    info = '私の猫の名前は、',
+    para = document.querySelector('p.java4');
+  for (var i = 0; i < cats.length; i++) {
+    info += cats[i] + '、';
+  }
+  para.textContent = info;
+}());</script><pre style="background-color: rgb(240, 240, 240);">window.addEventListener("DOMContentLoaded", function(){
+  var cats = ['ビル', 'ジェフ', 'ピート', 'ビッグルズ', 'ジャスミン'],
+    info = '私の猫の名前は、',
+    para = document.querySelector('p.java4');
+  for (var i = 0; i &lt; cats.length; i++) {
+    info += cats[i] + '、';
+  }
+  para.textContent = info;
+}());</pre><p>別の表示方式 条件が偽の場合、一度も実行されない。</p><script>window.addEventListener("DOMContentLoaded", function(){
+  var cats = ['ビル', 'ジェフ', 'ピート', 'ビッグルズ', 'ジャスミン'],
+    info = '私の猫の名前は、',
+    i = 0;
+  while (i < cats.length) {
+    if (i === cats.length - 1) {
+      info += 'and ' + cats[i] + '.';
+    } else {
+      info += cats[i] + ', ';
+    }
+    i++;
+  }
+}());</script><pre style="background-color: rgb(240, 240, 240);">window.addEventListener("DOMContentLoaded", function(){
+  var cats = ['ビル', 'ジェフ', 'ピート', 'ビッグルズ', 'ジャスミン'],
+    info = '私の猫の名前は、',
+    i = 0;
+  while (i &lt; cats.length) {
+    if (i === cats.length - 1) {
+      info += 'and ' + cats[i] + '.';
+    } else {
+      info += cats[i] + ', ';
+    }
+    i++;
+  }
+}());</pre><p>別の表示方式 条件が偽の場合でも、一度は実行される。</p><script>window.addEventListener("DOMContentLoaded", function(){
+  var cats = ['ビル', 'ジェフ', 'ピート', 'ビッグルズ', 'ジャスミン'],
+    info = '私の猫の名前は、',
+    i = 0;
+  do {
+    if (i === cats.length - 1) {
+      info += 'and ' + cats[i] + '.';
+    } else {
+      info += cats[i] + ', ';
+    }
+    i++;
+  }while (i < cats.length);
+}());</script><pre style="background-color: rgb(240, 240, 240);">window.addEventListener("DOMContentLoaded", function(){
+  var cats = ['ビル', 'ジェフ', 'ピート', 'ビッグルズ', 'ジャスミン'],
+    info = '私の猫の名前は、',
+    i = 0;
+  do {
+    if (i === cats.length - 1) {
+      info += 'and ' + cats[i] + '.';
+    } else {
+      info += cats[i] + ', ';
+    }
+    i++;
+  }while (i &lt; cats.length);
+}());</pre><p>アドレス帳</p><label for="search">連絡先の名前:</label><input class="java4" id="search" type="text"><button class="java4">検索</button><p class="java4 contact"></p><p>javascript構文</p><script>window.addEventListener('DOMContentLoaded', function() {
+  var contacts = ['クリス:2232322', 'サラ:3453456', 'ビル:7654322', 'メアリー:9998769', 'ダイアン:9384975'],
+    para = document.querySelector('p.java4.contact'), //検索結果の表示
+    input = document.querySelector('input.java4'),　　//入力内容の回収
+    btn = document.querySelector('button.java4');  //イベントトリガー
+  btn.addEventListener('click', function() {
+    var searchName = input.value;
+    input.value = '';
+    input.focus();
+    for (var i = 0; i < contacts.length; i++) {
+      var splitContact = contacts[i].split(':');　//配列を名前と番号に分ける。[name,nunber]と２つの情報が入った配列の作成。
+      if (splitContact[0] === searchName) {
+        para.textContent = splitContact[0] + ' の電話番号は ' + splitContact[1] + ' です。';
+        break;
+      } else {
+        para.textContent = '連絡先が見つかりません。';
+      }
+    }
+  });
+}());</script><pre style="background-color: rgb(240, 240, 240);">window.addEventListener('DOMContentLoaded', function() {
+  var contacts = ['クリス:2232322', 'サラ:3453456', 'ビル:7654322', 'メアリー:9998769', 'ダイアン:9384975'],
+    para = document.querySelector('p.java4.contact'), //検索結果の表示
+    input = document.querySelector('input.java4'),　　//入力内容の回収
+    btn = document.querySelector('button.java4');  //イベントトリガー
+  btn.addEventListener('click', function() {
+    var searchName = input.value;
+    input.value = '';
+    input.focus();
+    for (var i = 0; i &lt; contacts.length; i++) {
+      var splitContact = contacts[i].split(':');　//配列を名前と番号に分ける。[name,nunber]と２つの情報が入った配列の作成。
+      if (splitContact[0] === searchName) {
+        para.textContent = splitContact[0] + ' の電話番号は ' + splitContact[1] + ' です。';
+        break;
+      } else {
+        para.textContent = '連絡先が見つかりません。';
+      }
+    }
+  });
+}());</pre><p>----java5----関数の扱い</p><div class="java5"></div><p>javascript構文</p><script>window.addEventListener("DOMContentLoaded", function(){
+  var x = 1;
+  function java5_a() {
+    var y = 2;
+    output(y);
+    output(x);
+  };
+  function java5_b() {
+    var z = 3;
+    output(z);
+    output(x);
+  };
+  function output(value) {
+    var divJava5 = document.querySelector('div.java5'),
+      para = document.createElement('p');
+    divJava5.appendChild(para);
+    para.textContent = 'Value: ' + value;
+  };
+}());</script><pre style="background-color: rgb(240, 240, 240);">window.addEventListener("DOMContentLoaded", function(){
+  var x = 1;
+  function java5_a() {
+    var y = 2;
+    output(y);
+    output(x);
+  };
+  function java5_b() {
+    var z = 3;
+    output(z);
+    output(x);
+  };
+  function output(value) {
+    var divJava5 = document.querySelector('div.java5'),
+      para = document.createElement('p');
+    divJava5.appendChild(para);
+    para.textContent = 'Value: ' + value;
+  };
+}());</pre><p>関数の中の関数</p><script>window.addEventListener("DOMContentLoaded", function(){
+  function myBigFunction() {
+    var myValue = 1;
+    subFunction1(myValue);
+    subFunction2(myValue);
+    subFunction3(myValue);
+  };
+  function subFunction1(value) {
+    //console.log(value);
+  };
+  function subFunction2(value) {
+    //console.log(value);
+  };
+  function subFunction3(value) {
+   // console.log(value);
+  };
+}());</script><pre style="background-color: rgb(240, 240, 240);">window.addEventListener("DOMContentLoaded", function(){
+  function myBigFunction() {
+    var myValue = 1;
+    subFunction1(myValue);
+    subFunction2(myValue);
+    subFunction3(myValue);
+  };
+  function subFunction1(value) {
+    //console.log(value);
+  };
+  function subFunction2(value) {
+    //console.log(value);
+  };
+  function subFunction3(value) {
+   // console.log(value);
+  };
+}());</pre><p>----java6----関数の作成</p><div class="java6-0"><button class="java6-0">Display message box warning</button><br><button class="java6-1">Display message box chat</button></div><p>javascript構文</p><script>window.addEventListener('DOMContentLoaded', function() {
+  var btn  = document.querySelector('button.java6-0'),
+    btn1 = document.querySelector('button.java6-1');
+  btn.onclick = function(){
+    displayMessage ('Your inbox is almost full ? delete some mails', 'warning');
+  };
+  btn1.onclick = function(){
+    displayMessage('Brian: Hi there, how are you today?','chat');
+  };
+  function displayMessage(msgText, msgType) {
+    var html = document.querySelector('div.java6-0'),
+      panel = document.createElement('div');
+    panel.setAttribute('class', 'java6msgBox');
+    html.appendChild(panel);
+    var msg = document.createElement('p');
+    msg.textContent = msgText;
+    panel.appendChild(msg);
+    var closeBtn = document.createElement('button');
+    closeBtn.textContent = 'x';
+    panel.appendChild(closeBtn);
+    closeBtn.onclick = function() {
+      panel.parentNode.removeChild(panel);
+    };
+    if ( msgType ==='warning'){
+      msg.style.backgroundImage = 'url(/assets/warning.png)';
+      panel.style.backgroundColor = 'red';
+    }else if(msgType === 'chat'){
+      msg.style.backgroundImage = 'url(/assets/chat.png)';
+      panel.style.backgroundColor = 'aqua';
+    }else{
+      msg.style.paddingLeft = '20px';
+    };
+  };
+}());</script><pre style="background-color: rgb(240, 240, 240);">window.addEventListener('DOMContentLoaded', function() {
+  var btn  = document.querySelector('button.java6-0'),
+    btn1 = document.querySelector('button.java6-1');
+  btn.onclick = function(){
+    displayMessage ('Your inbox is almost full ? delete some mails', 'warning');
+  };
+  btn1.onclick = function(){
+    displayMessage('Brian: Hi there, how are you today?','chat');
+  };
+  function displayMessage(msgText, msgType) {
+    var html = document.querySelector('div.java6-0'),
+      panel = document.createElement('div');
+    panel.setAttribute('class', 'java6msgBox');
+    html.appendChild(panel);
+    var msg = document.createElement('p');
+    msg.textContent = msgText;
+    panel.appendChild(msg);
+    var closeBtn = document.createElement('button');
+    closeBtn.textContent = 'x';
+    panel.appendChild(closeBtn);
+    closeBtn.onclick = function() {
+      panel.parentNode.removeChild(panel);
+    };
+    if ( msgType ==='warning'){
+      msg.style.backgroundImage = 'url(/assets/warning.png)';
+      panel.style.backgroundColor = 'red';
+    }else if(msgType === 'chat'){
+      msg.style.backgroundImage = 'url(/assets/chat.png)';
+      panel.style.backgroundColor = 'aqua';
+    }else{
+      msg.style.paddingLeft = '20px';
+    };
+  };
+}());</pre><p>----java7----返値を返す関数の作成</p><input class="numberInput" type="text"><p class="java7-0"></p><p>javascript構文</p><script>window.addEventListener('DOMContentLoaded', function() {
+  var input = document.querySelector('.numberInput'),
+    para = document.querySelector('p.java7-0');
+  function squared(num){
+    return num* num;
+  };
+  function cubed(num) {
+    return num * num * num;
+  };
+  function factorial(num){
+    var x = num;
+    while(x>1){
+      num *= x-1;
+      x--;
+    };
+    return num;
+  };
+  input.onchange = function(){
+    var num = input.value;
+    if (isNaN(num)){
+      para.textContent = 'you need to enter a number!';
+    }else{
+      para.textContent = [
+        num + 'squared is ' + squared(num) + '.',
+        num + 'cubed is' + cubed(num) + '.',
+        num + 'factorial is' + factorial(num) + '.'
+      ].join('')
+    };
+  };
+}());</script><pre style="background-color: rgb(240, 240, 240);">window.addEventListener('DOMContentLoaded', function() {
+  var input = document.querySelector('.numberInput'),
+    para = document.querySelector('p.java7-0');
+  function squared(num){
+    return num* num;
+  };
+  function cubed(num) {
+    return num * num * num;
+  };
+  function factorial(num){
+    var x = num;
+    while(x&gt;1){
+      num *= x-1;
+      x--;
+    };
+    return num;
+  };
+  input.onchange = function(){
+    var num = input.value;
+    if (isNaN(num)){
+      para.textContent = 'you need to enter a number!';
+    }else{
+      para.textContent = [
+        num + 'squared is ' + squared(num) + '.',
+        num + 'cubed is' + cubed(num) + '.',
+        num + 'factorial is' + factorial(num) + '.'
+      ].join('')
+    };
+  };
+}());</pre><p> ----java8---イベントの理解</p><div class="java8"><button class="java8-0">クリックChange color</button><br><button class="java8-1">フォーカスインChange color</button><br><button class="java8-2">フォーカスアウトChange color</button><br><button class="java8-3">ダブルクリックChange color</button><br><button class="java8-4">マウスオーバーChange color</button><br><button class="java8-5">マウスアウトChange color</button></div><p>javascript構文</p><script>window.addEventListener('DOMContentLoaded', function() {
+  var btn = document.querySelectorAll('div.java8 > button');
+  for (var i = 0 ; i < btn.length; i++){
+    switch (i){
+      case 0:
+        btn[0].onclick = bgChange;
+        break;
+      case 1:
+        btn[1].onfocus = bgChange;
+        break;
+      case 2:
+        btn[2].onblur = bgChange;
+        break;
+      case 3:
+        btn[3].ondblclick = bgChange;
+        break;
+      case 4:
+        btn[4].onmouseover = bgChange;
+        break;
+      case 5:
+        btn[5].onmouseout = bgChange;
+        break;
+      default:
+        btn[i].onclick = bgChange;
+    };
+      window.onkeypress = bgChange; //キーボードトリガー
+    //window.onkeydown = bgChange; キーボードを押したときにトリガー
+    //window.onkeyup = bgChange;　キーボードを離したときにトリガー
+  };
+  function bgChange(e){
+    function random(number){
+      return Math.floor(Math.random()*(number+1));
+    }
+    var rndCol = 'rgb('+random(255)+','+random(255)+','+random(255)+')';
+    if (this !== window){
+      e.target.style.backgroundColor = rndCol;
+      e.target.style.color= 'white';
+    }else{
+      for (var i = 0; i < btn.length; i++) {
+        rndCol = 'rgb('+random(255)+','+random(255)+','+random(255)+')';
+        btn[i].style.backgroundColor = rndCol;
+        btn[i].style.color= 'white';
+      };
+    };
+  };
+}());</script><pre style="background-color: rgb(240, 240, 240);">window.addEventListener('DOMContentLoaded', function() {
+  var btn = document.querySelectorAll('div.java8 &gt; button');
+  for (var i = 0 ; i &lt; btn.length; i++){
+    switch (i){
+      case 0:
+        btn[0].onclick = bgChange;
+        break;
+      case 1:
+        btn[1].onfocus = bgChange;
+        break;
+      case 2:
+        btn[2].onblur = bgChange;
+        break;
+      case 3:
+        btn[3].ondblclick = bgChange;
+        break;
+      case 4:
+        btn[4].onmouseover = bgChange;
+        break;
+      case 5:
+        btn[5].onmouseout = bgChange;
+        break;
+      default:
+        btn[i].onclick = bgChange;
+    };
+      window.onkeypress = bgChange; //キーボードトリガー
+    //window.onkeydown = bgChange; キーボードを押したときにトリガー
+    //window.onkeyup = bgChange;　キーボードを離したときにトリガー
+  };
+  function bgChange(e){
+    function random(number){
+      return Math.floor(Math.random()*(number+1));
+    }
+    var rndCol = 'rgb('+random(255)+','+random(255)+','+random(255)+')';
+    if (this !== window){
+      e.target.style.backgroundColor = rndCol;
+      e.target.style.color= 'white';
+    }else{
+      for (var i = 0; i &lt; btn.length; i++) {
+        rndCol = 'rgb('+random(255)+','+random(255)+','+random(255)+')';
+        btn[i].style.backgroundColor = rndCol;
+        btn[i].style.color= 'white';
+      };
+    };
+  };
+}());</pre><p>--イベントオブジェクト-クリックした要素を特定---</p><div class="java8-6"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div><p>javascript構文</p><script>window.addEventListener("DOMContentLoaded", function(){
+  for(var i = 1; i <= 16; i++) {
+    var myDiv = document.createElement('div'),
+      divjava86 = document.querySelector('div.java8-6');
+    divjava86.appendChild(myDiv);
+  }
+  function random(number) {
+    return Math.floor(Math.random()*number);
+  }
+  function bgChange() {
+    var rndCol = 'rgb(' + random(255) + ',' + random(255) + ',' + random(255) + ')';
+    return rndCol;
+  }
+  var divs = document.querySelectorAll('div.java8-6 > div');
+  for(var i = 0; i < divs.length; i++) {
+    divs[i].onclick = function(e) {
+      e.target.style.backgroundColor = bgChange();
+    }
+  }
+}());</script><pre style="background-color: rgb(240, 240, 240);">window.addEventListener("DOMContentLoaded", function(){
+  for(var i = 1; i &lt;= 16; i++) {
+    var myDiv = document.createElement('div'),
+      divjava86 = document.querySelector('div.java8-6');
+    divjava86.appendChild(myDiv);
+  }
+  function random(number) {
+    return Math.floor(Math.random()*number);
+  }
+  function bgChange() {
+    var rndCol = 'rgb(' + random(255) + ',' + random(255) + ',' + random(255) + ')';
+    return rndCol;
+  }
+  var divs = document.querySelectorAll('div.java8-6 &gt; div');
+  for(var i = 0; i &lt; divs.length; i++) {
+    divs[i].onclick = function(e) {
+      e.target.style.backgroundColor = bgChange();
+    }
+  }
+}());</pre><p>--標準の動作を抑制する。----</p><div class="java9"><form><div><label for="fname">First name:</label><input id="fname" type="text"></div><div><label for="lname">Last name:</label><input id="lname" type="text"></div><div><input id="submit" type="submit"></div></form><p></p></div><p>javascript構文</p><script>window.addEventListener("DOMContentLoaded", function(){
+  var form = document.querySelector('div.java9 > form'),
+    fname = document.getElementById('fname'),
+    lname = document.getElementById('lname'),
+    submit = document.getElementById('submit'),
+    para2 = document.querySelector('div.java9> p');
+  form.onsubmit = function(e) {
+    if (fname.value === '' || lname.value === '') {
+      e.preventDefault();
+      para2.textContent = 'You need to fill in both names!';
+    }
+  }
+}());</script><pre style="background-color: rgb(240, 240, 240);">window.addEventListener("DOMContentLoaded", function(){
+  var form = document.querySelector('div.java9 &gt; form'),
+    fname = document.getElementById('fname'),
+    lname = document.getElementById('lname'),
+    submit = document.getElementById('submit'),
+    para2 = document.querySelector('div.java9&gt; p');
+  form.onsubmit = function(e) {
+    if (fname.value === '' || lname.value === '') {
+      e.preventDefault();
+      para2.textContent = 'You need to fill in both names!';
+    }
+  }
+}());</pre><p>--2つのイベント、バブリングとキャプチャリング。----</p><div class="java10-0"><button>Display video</button><div class="hidden"><video><source src="/assets/rabbit320.mp4" type="video/mp4"><source src="rabbit320.webm" type="video/webm"><p>Your browser doesnt support HTML5 video. Here is a
+a href="rabbit320.mp4" link to the video instead.</p></video></div></div><p>javascript構文</p><script>window.addEventListener("DOMContentLoaded", function(){
+  var btn = document.querySelector('.java10-0 > button'),
+    videoBox = document.querySelector('.java10-0 > div'),
+    video = document.querySelector('.java10-0 .hidden video');
+  btn.onclick = function() {
+    videoBox.setAttribute('class','showing');
+  }
+  videoBox.onclick = function() {
+    videoBox.setAttribute('class','hidden');
+  };
+  video.onclick = function(e) {
+    e.stopPropagation();
+    video.play();
+  };
+}());</script><pre style="background-color: rgb(240, 240, 240);">window.addEventListener("DOMContentLoaded", function(){
+  var btn = document.querySelector('.java10-0 &gt; button'),
+    videoBox = document.querySelector('.java10-0 &gt; div'),
+    video = document.querySelector('.java10-0 .hidden video');
+  btn.onclick = function() {
+    videoBox.setAttribute('class','showing');
+  }
+  videoBox.onclick = function() {
+    videoBox.setAttribute('class','hidden');
+  };
+  video.onclick = function(e) {
+    e.stopPropagation();
+    video.play();
+  };
+}());</pre><p>--画像ギャラリーの作成。----</p><div class="java11-0"><h1>Image gallery example</h1><div class="full-img"><img class="displayed-img" src="./Dictionary_files/pic1.jpg"><div class="overlay"></div><button class="dark">Darken</button></div><div class="thumb-bar"><img src="./Dictionary_files/pic1.jpg"><img src="./Dictionary_files/pic2.jpg"><img src="./Dictionary_files/pic3.jpg"><img src="./Dictionary_files/pic4.jpg"><img src="./Dictionary_files/pic5.jpg"></div></div><p>javascript構文</p><script>window.addEventListener("DOMContentLoaded", function(){
+  var displayedImage = document.querySelector('.displayed-img'),
+    thumbBar = document.querySelector('.java11-0 .thumb-bar'),
+    btn = document.querySelector('.full-img button'),
+    overlay = document.querySelector('.full-img .overlay');
+  for(var i = 1; i <= 5; i++) {
+    var newImage = document.createElement('img');
+    displayedImage.setAttribute('src', '/assets/pic' + 1 + '.jpg');
+    newImage.setAttribute('src', '/assets/pic' + i + '.jpg');
+    thumbBar.appendChild(newImage);
+    newImage.onclick = function(e) {
+      var imgSrc = e.target.getAttribute('src');
+      displayImage(imgSrc);
+    }
+  }
+  function displayImage(imgSrc) {
+    displayedImage.setAttribute('src', imgSrc);
+  }
+  btn.onclick = function() {
+    var btnClass = btn.getAttribute('class');
+    if(btnClass === 'dark') {
+      btn.setAttribute('class','light');
+      btn.textContent = 'Lighten';
+      overlay.style.backgroundColor = 'rgba(0,0,0,0.5)';
+    } else {
+      btn.setAttribute('class','dark');
+      btn.textContent = 'Darken';
+      overlay.style.backgroundColor = 'rgba(0,0,0,0)';
+    }
+  }
+}());</script><pre style="background-color: rgb(240, 240, 240);">window.addEventListener("DOMContentLoaded", function(){
+  var displayedImage = document.querySelector('.displayed-img'),
+    thumbBar = document.querySelector('.java11-0 .thumb-bar'),
+    btn = document.querySelector('.full-img button'),
+    overlay = document.querySelector('.full-img .overlay');
+  for(var i = 1; i &lt;= 5; i++) {
+    var newImage = document.createElement('img');
+    displayedImage.setAttribute('src', '/assets/pic' + 1 + '.jpg');
+    newImage.setAttribute('src', '/assets/pic' + i + '.jpg');
+    thumbBar.appendChild(newImage);
+    newImage.onclick = function(e) {
+      var imgSrc = e.target.getAttribute('src');
+      displayImage(imgSrc);
+    }
+  }
+  function displayImage(imgSrc) {
+    displayedImage.setAttribute('src', imgSrc);
+  }
+  btn.onclick = function() {
+    var btnClass = btn.getAttribute('class');
+    if(btnClass === 'dark') {
+      btn.setAttribute('class','light');
+      btn.textContent = 'Lighten';
+      overlay.style.backgroundColor = 'rgba(0,0,0,0.5)';
+    } else {
+      btn.setAttribute('class','dark');
+      btn.textContent = 'Darken';
+      overlay.style.backgroundColor = 'rgba(0,0,0,0)';
+    }
+  }
+}());</pre><p>--オブジェクトの基本。----</p><p>様々なアクセス方法。</p><p class="person_name">person.name.first=&gt;Bob</p><p class="person_name2">person["name"]["first"]=&gt;Bob</p><p>様々な値のセット方法。</p><p>"person.age = 45";</p><p>"person['name']['last'] = 'Cratchit'";</p><p>"person['eyes'] = 'hazel'";</p><p>"person.farewell = function() { alert("Bye everybody!"); }";</p><p>動的なセット方法</p><p class="myDataName">person.height=&gt;1.75m</p><script>window.addEventListener("DOMContentLoaded", function(){
+  var person = {
+    name: {
+      first: 'Bob',
+      last: 'Smith'
+    },
+    age: 32,
+    gender: 'male',
+    interests: ['music', 'skiing'],
+    bio: function() {
+      alert(this.name.first + ' ' + this.name.last + ' is ' + this.age + ' years old. He likes ' + this.interests[0] + ' and ' + this.interests[1] + '.');
+    },
+    greeting: function() {
+      alert('Hi! I\'m ' + this.name.first + '.');
+    }
+  };
+  document.querySelector('.person_name').textContent += "=" + ">" + person.name.first;
+  document.querySelector('.person_name2').textContent += "=" + ">" + person["name"]["first"];
+  var myDataName = 'height',
+    myDataValue = '1.75m';
+  person[myDataName] = myDataValue;
+  document.querySelector('.myDataName').textContent += "=" + ">" + person.height;
+}());</script><pre style="background-color: rgb(240, 240, 240);">window.addEventListener("DOMContentLoaded", function(){
+  var person = {
+    name: {
+      first: 'Bob',
+      last: 'Smith'
+    },
+    age: 32,
+    gender: 'male',
+    interests: ['music', 'skiing'],
+    bio: function() {
+      alert(this.name.first + ' ' + this.name.last + ' is ' + this.age + ' years old. He likes ' + this.interests[0] + ' and ' + this.interests[1] + '.');
+    },
+    greeting: function() {
+      alert('Hi! I\'m ' + this.name.first + '.');
+    }
+  };
+  document.querySelector('.person_name').textContent += "=" + "&gt;" + person.name.first;
+  document.querySelector('.person_name2').textContent += "=" + "&gt;" + person["name"]["first"];
+  var myDataName = 'height',
+    myDataValue = '1.75m';
+  person[myDataName] = myDataValue;
+  document.querySelector('.myDataName').textContent += "=" + "&gt;" + person.height;
+}());</pre><p>thisとは何か</p><p>コンソールでperson1.greeting();</p><script>window.addEventListener("DOMContentLoaded", function(){
+  var person1 = {
+    name: 'Chris',
+    greeting: function() {
+      alert('Hi! I\'m ' + this.name + '.');
+    }
+  };
+  var person2 = {
+    name: 'Brian',
+    greeting: function() {
+      alert('Hi! I\'m ' + this.name + '.');
+    }
+  };
+}());</script><pre style="background-color: rgb(240, 240, 240);">window.addEventListener("DOMContentLoaded", function(){
+  var person1 = {
+    name: 'Chris',
+    greeting: function() {
+      alert('Hi! I\'m ' + this.name + '.');
+    }
+  };
+  var person2 = {
+    name: 'Brian',
+    greeting: function() {
+      alert('Hi! I\'m ' + this.name + '.');
+    }
+  };
+}());</pre><p>コンストラクターとオブジェクトインスタンス</p><div class="java12"><label for="jscode">Enter code;</label><input id="jscode" type="text"><button>Submit code</button><p></p>&lt;ボックスの記入例 person1,teacher1=""&gt;。<!--ボックスの記入例--><p>teacher1.name.first;</p><p>teacher1.interests[0];</p><p>teacher1.bio();</p><p>teacher1.subject;</p><p>teacher1.greeting();</p><p>teacher1.farewell();</p></div><script>window.addEventListener("DOMContentLoaded", function(){
+  var input= document.querySelector("div.java12 > input"),
+    btn = document.querySelector("div.java12 > button"),
+    para= document.querySelector("div.java12 > p");
+  btn.onclick = function(){
+    var code = input.value;
+    para.textContent = eval(code);
+  };
+  function Person(first,last,age,gender,interests){
+    this.name= {
+      first,
+      last
+    };
+    this.age = age;
+    this.gender = gender;
+    this.interests = interests;
+  };
+  Person.prototype.bio = function(){
+    var string = [
+      this.name.first,
+      ' ',
+      this.name.last,
+      'is',
+      this.age,
+      'years old.'
+    ].join("");
+    var pronoun;
+    if(this.gender === "male" || this.gender === "Male" || this.gender === "m" || this.gender === "M"){
+      pronoun = "He likes";
+    }else if(this.gender === "female" || this.gender === "FeMale" || this.gender === "f" || this.gender === "F"){
+      pronoun = "She likes";
+    }else{
+      pronoun = "They like";
+    }
+    string+= pronoun;
+    if(this.interests.length === 1){
+        string += this.interests[0] + ".";
+    }else if(this.interests.length ===2){
+        string += this.interests[0] + "and" + this.interests[1] + ".";
+    }else{
+      for(var i =0; i < this.interests.length; i++ ){
+        if(i === this.length -1){
+          string += "and" + this.interests[i] + ".";
+        }else{
+          string += this.interests[i] + ".";
+        };
+      };
+    };
+    alert(string);
+  };
+  Person.prototype.greeting = function() {
+    alert('Hi! I\'m ' + this.name.first + '.');
+  };
+  Person.prototype.farewell = function() {
+    alert(this.name.first + ' has left the building. Bye for now!');
+  };
+  var person1 = new Person('Tammi', 'Smith', 32, 'neutral', ['music', 'skiing', 'kickboxing']);
+  function Teacher(first, last, age, gender, interests, subject) {
+    Person.call(this, first, last, age, gender, interests);
+    this.subject = subject;
+  };
+  Teacher.prototype = Object.create(Person.prototype);
+  Teacher.prototype.constructor = Teacher;
+  Teacher.prototype.greeting = function() {
+    var prefix;
+    if(this.gender === 'male' || this.gender === 'Male' || this.gender === 'm' || this.gender === 'M') {
+      prefix = 'Mr.';
+    } else if(this.gender === 'female' || this.gender === 'Female' || this.gender === 'f' || this.gender === 'F') {
+      prefix = 'Mrs.';
+    } else {
+      prefix = 'Mx.';
+    }
+    alert('Hello. My name is ' + prefix + ' ' + this.name.last + ', and I teach ' + this.subject + '.');
+  };
+  var teacher1 = new Teacher('Dave', 'Griffiths', 31, 'male', ['football', 'cookery'], 'mathematics');
+}());</script><pre style="background-color: rgb(240, 240, 240);">window.addEventListener("DOMContentLoaded", function(){
+  var input= document.querySelector("div.java12 &gt; input"),
+    btn = document.querySelector("div.java12 &gt; button"),
+    para= document.querySelector("div.java12 &gt; p");
+  btn.onclick = function(){
+    var code = input.value;
+    para.textContent = eval(code);
+  };
+  function Person(first,last,age,gender,interests){
+    this.name= {
+      first,
+      last
+    };
+    this.age = age;
+    this.gender = gender;
+    this.interests = interests;
+  };
+  Person.prototype.bio = function(){
+    var string = [
+      this.name.first,
+      ' ',
+      this.name.last,
+      'is',
+      this.age,
+      'years old.'
+    ].join("");
+    var pronoun;
+    if(this.gender === "male" || this.gender === "Male" || this.gender === "m" || this.gender === "M"){
+      pronoun = "He likes";
+    }else if(this.gender === "female" || this.gender === "FeMale" || this.gender === "f" || this.gender === "F"){
+      pronoun = "She likes";
+    }else{
+      pronoun = "They like";
+    }
+    string+= pronoun;
+    if(this.interests.length === 1){
+        string += this.interests[0] + ".";
+    }else if(this.interests.length ===2){
+        string += this.interests[0] + "and" + this.interests[1] + ".";
+    }else{
+      for(var i =0; i &lt; this.interests.length; i++ ){
+        if(i === this.length -1){
+          string += "and" + this.interests[i] + ".";
+        }else{
+          string += this.interests[i] + ".";
+        };
+      };
+    };
+    alert(string);
+  };
+  Person.prototype.greeting = function() {
+    alert('Hi! I\'m ' + this.name.first + '.');
+  };
+  Person.prototype.farewell = function() {
+    alert(this.name.first + ' has left the building. Bye for now!');
+  };
+  var person1 = new Person('Tammi', 'Smith', 32, 'neutral', ['music', 'skiing', 'kickboxing']);
+  function Teacher(first, last, age, gender, interests, subject) {
+    Person.call(this, first, last, age, gender, interests);
+    this.subject = subject;
+  };
+  Teacher.prototype = Object.create(Person.prototype);
+  Teacher.prototype.constructor = Teacher;
+  Teacher.prototype.greeting = function() {
+    var prefix;
+    if(this.gender === 'male' || this.gender === 'Male' || this.gender === 'm' || this.gender === 'M') {
+      prefix = 'Mr.';
+    } else if(this.gender === 'female' || this.gender === 'Female' || this.gender === 'f' || this.gender === 'F') {
+      prefix = 'Mrs.';
+    } else {
+      prefix = 'Mx.';
+    }
+    alert('Hello. My name is ' + prefix + ' ' + this.name.last + ', and I teach ' + this.subject + '.');
+  };
+  var teacher1 = new Teacher('Dave', 'Griffiths', 31, 'male', ['football', 'cookery'], 'mathematics');
+}());</pre><p>---Jsonデータの取り扱いについて---</p><p>アクセス方法は配列の取り出しと同じ。</p><p>superHeroes.homeTown "=&gt;Metro City"</p><p>superHeroes['active']"=&gt;true"</p><p>superHeroes['members'][1]['powers'][2] "=&gt;Superhuman reflexes"</p><div class="java13"><header><h1>Super hero squad</h1><p>Hometown: Metro City // Formed: 2016</p></header><section><article><h2>Molecule Man</h2><p>Secret identity: Dan Jukes</p><p>Age: 29</p><p>Superpowers:</p><ul><li>Radiation resistance</li><li>Turning tiny</li><li>Radiation blast</li></ul></article><article><h2>Madame Uppercut</h2><p>Secret identity: Jane Wilson</p><p>Age: 39</p><p>Superpowers:</p><ul><li>Million tonne punch</li><li>Damage resistance</li><li>Superhuman reflexes</li></ul></article><article><h2>Eternal Flame</h2><p>Secret identity: Unknown</p><p>Age: 1000000</p><p>Superpowers:</p><ul><li>Immortality</li><li>Heat Immunity</li><li>Inferno</li><li>Teleportation</li><li>Interdimensional travel</li></ul></article></section></div><script>window.addEventListener("DOMContentLoaded", function(){
+  var header = document.querySelector('.java13 header'),
+    section = document.querySelector('.java13 section'),
+    requestURL = "/webshops/java",
+    request = new XMLHttpRequest();
+  request.open('GET', requestURL);
+  request.responseType = 'json';
+  request.send();
+  request.onload = function() {
+    var superHeroes = request.response;
+    populateHeader(superHeroes);
+    showHeroes(superHeroes);
+  }
+  function populateHeader(jsonObj) {
+    var myH1 = document.createElement('h1');
+    myH1.textContent = jsonObj['squadName'];
+      header.appendChild(myH1);
+    var myPara = document.createElement('p');
+    myPara.textContent = 'Hometown: ' + jsonObj['homeTown'] + ' // Formed: ' + jsonObj['formed'];
+    header.appendChild(myPara);
+  }
+  function showHeroes(jsonObj) {
+    var heroes = jsonObj['members'];
+    for(var i = 0; i < heroes.length; i++) {
+      var myArticle = document.createElement('article'),
+        myH2 = document.createElement('h2'),
+        myPara1 = document.createElement('p'),
+        myPara2 = document.createElement('p'),
+        myPara3 = document.createElement('p'),
+        myList = document.createElement('ul');
+      myH2.textContent = heroes[i].name;
+      myPara1.textContent = 'Secret identity: ' + heroes[i].secretIdentity;
+      myPara2.textContent = 'Age: ' + heroes[i].age;
+      myPara3.textContent = 'Superpowers:';
+      var superPowers = heroes[i].powers;
+      for(var j = 0; j < superPowers.length; j++) {
+        var listItem = document.createElement('li');
+        listItem.textContent = superPowers[j];
+        myList.appendChild(listItem);
+      }
+      myArticle.appendChild(myH2);
+      myArticle.appendChild(myPara1);
+      myArticle.appendChild(myPara2);
+      myArticle.appendChild(myPara3);
+      myArticle.appendChild(myList);
+      section.appendChild(myArticle);
+    }
+  };
+}());
+//.jsonデータ内の情報
+  var superHeroes = {
+  "squadName" : "Super hero squad",
+  "homeTown" : "Metro City",
+  "formed" : 2016,
+  "secretBase" : "Super tower",
+  "active" : true,
+  "members" : [
+    {
+      "name" : "Molecule Man",
+      "age" : 29,
+      "secretIdentity" : "Dan Jukes",
+      "powers" : [
+        "Radiation resistance",
+        "Turning tiny",
+        "Radiation blast"
+      ]
+    },
+    {
+      "name" : "Madame Uppercut",
+      "age" : 39,
+      "secretIdentity" : "Jane Wilson",
+      "powers" : [
+        "Million tonne punch",
+        "Damage resistance",
+        "Superhuman reflexes"
+      ]
+    },
+    {
+      "name" : "Eternal Flame",
+      "age" : 1000000,
+      "secretIdentity" : "Unknown",
+      "powers" : [
+        "Immortality",
+        "Heat Immunity",
+        "Inferno",
+        "Teleportation",
+        "Interdimensional travel"
+      ]
+    }
+  ]
+}</script><pre style="background-color: rgb(240, 240, 240);">window.addEventListener("DOMContentLoaded", function(){
+  var header = document.querySelector('.java13 header'),
+    section = document.querySelector('.java13 section'),
+    requestURL = "/webshops/java",
+    request = new XMLHttpRequest();
+  request.open('GET', requestURL);
+  request.responseType = 'json';
+  request.send();
+  request.onload = function() {
+    var superHeroes = request.response;
+    populateHeader(superHeroes);
+    showHeroes(superHeroes);
+  }
+  function populateHeader(jsonObj) {
+    var myH1 = document.createElement('h1');
+    myH1.textContent = jsonObj['squadName'];
+      header.appendChild(myH1);
+    var myPara = document.createElement('p');
+    myPara.textContent = 'Hometown: ' + jsonObj['homeTown'] + ' // Formed: ' + jsonObj['formed'];
+    header.appendChild(myPara);
+  }
+  function showHeroes(jsonObj) {
+    var heroes = jsonObj['members'];
+    for(var i = 0; i &lt; heroes.length; i++) {
+      var myArticle = document.createElement('article'),
+        myH2 = document.createElement('h2'),
+        myPara1 = document.createElement('p'),
+        myPara2 = document.createElement('p'),
+        myPara3 = document.createElement('p'),
+        myList = document.createElement('ul');
+      myH2.textContent = heroes[i].name;
+      myPara1.textContent = 'Secret identity: ' + heroes[i].secretIdentity;
+      myPara2.textContent = 'Age: ' + heroes[i].age;
+      myPara3.textContent = 'Superpowers:';
+      var superPowers = heroes[i].powers;
+      for(var j = 0; j &lt; superPowers.length; j++) {
+        var listItem = document.createElement('li');
+        listItem.textContent = superPowers[j];
+        myList.appendChild(listItem);
+      }
+      myArticle.appendChild(myH2);
+      myArticle.appendChild(myPara1);
+      myArticle.appendChild(myPara2);
+      myArticle.appendChild(myPara3);
+      myArticle.appendChild(myList);
+      section.appendChild(myArticle);
+    }
+  };
+}());
+//.jsonデータ内の情報
+  var superHeroes = {
+  "squadName" : "Super hero squad",
+  "homeTown" : "Metro City",
+  "formed" : 2016,
+  "secretBase" : "Super tower",
+  "active" : true,
+  "members" : [
+    {
+      "name" : "Molecule Man",
+      "age" : 29,
+      "secretIdentity" : "Dan Jukes",
+      "powers" : [
+        "Radiation resistance",
+        "Turning tiny",
+        "Radiation blast"
+      ]
+    },
+    {
+      "name" : "Madame Uppercut",
+      "age" : 39,
+      "secretIdentity" : "Jane Wilson",
+      "powers" : [
+        "Million tonne punch",
+        "Damage resistance",
+        "Superhuman reflexes"
+      ]
+    },
+    {
+      "name" : "Eternal Flame",
+      "age" : 1000000,
+      "secretIdentity" : "Unknown",
+      "powers" : [
+        "Immortality",
+        "Heat Immunity",
+        "Inferno",
+        "Teleportation",
+        "Interdimensional travel"
+      ]
+    }
+  ]
+}</pre><div class="java14" style="width: 300px; height: 150px;"><h1>bouncing balls</h1><p>Ball count: 2</p><canvas></canvas></div><script>// <= a ↑ww →d ↓s
+window.addEventListener('DOMContentLoaded', function() {
+  var para = document.querySelector('div.java14 > p'),
+    count = 0,
+    canvas = document.querySelector('div.java14 > canvas'),
+    ctx = canvas.getContext("2d"),
+    width = canvas.width,
+    height = canvas.height,
+    div_java14 = document.querySelector('div.java14');
+  div_java14.style.width = width + "px";
+  div_java14.style.height = height + "px";
+  function random(min, max) {
+    var num = Math.floor(Math.random() * (max - min + 1)) + min;
+    return num;
+  }
+  function Shape(x, y, velX, velY,exists) {
+    this.x = x;
+    this.y = y;
+    this.velX = velX; //"個々のボールには水平と垂直方向の速度が与えら、これらの値が x/y座標値に定期的に加算され、各フレームでこの値だけ移動。"
+    this.velY = velY;
+    this.exists = exists;
+  }
+  function Ball(x, y, velX, velY, exists, color, size) {
+    Shape.call(this,x, y, velX, velY,exists);
+    this.color = color;
+    this.size = size;//"個々のボールには大きさがあります ? ピクセルを単位とする半径で表わします。"
+  };
+  Ball.prototype = Object.create(Shape.prototype);
+  Ball.prototype.constructor = Ball;
+  Ball.prototype.draw = function() {
+    ctx.beginPath(); //"まずは、beginPath() を使って紙に形を描きたいと宣言します。"
+    ctx.fillStyle = this.color; //"fillStyle を使って形を何色にしたいか宣言"
+    ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI); //"arc() メソッドを使って紙に円弧形をなぞります"
+    ctx.fill(); //"beginPath() から描き始めた線描を終了し、描いた領域を前に fillStyle で指定していた色で塗り潰せという指示"
+  };
+  Ball.prototype.update = function() {
+    if ((this.x + this.size) >= width) {
+      this.velX = -(this.velX);
+    }
+    if ((this.x - this.size) <= 0) {
+      this.velX = -(this.velX);
+    }
+    if ((this.y + this.size) >= height) {
+      this.velY = -(this.velY);
+    }
+    if ((this.y - this.size) <= 0) {
+      this.velY = -(this.velY);
+    }
+    this.x += this.velX;
+    this.y += this.velY;
+  };
+  Ball.prototype.collisionDetect = function() {
+    for (var j = 0; j < balls.length; j++) {
+      if (!(this === balls[j])) {//" if文でループで回しているボールがチェックしているボールと同じか調べています"
+        var dx = this.x - balls[j].x, //"二つの円が衝突していないか調べるためのアルゴリズム。円の領域が重なっているかチェック"
+          dy = this.y - balls[j].y,
+          distance = Math.sqrt(dx * dx + dy * dy);
+        if (distance < this.size + balls[j].size) {
+          balls[j].color = this.color = 'rgb(' + random(0, 255) + ',' + random(0, 255) + ',' + random(0, 255) +')';
+        }
+      }
+    }
+  };
+  function EvilCircle(x, y, exists) {
+    Shape.call(this, x, y, 20, 20, exists);
+    this.color = 'white';
+    this.size = 10;
+  }
+  EvilCircle.prototype = Object.create(Shape.prototype);
+  EvilCircle.prototype.constructor = EvilCircle;
+  EvilCircle.prototype.draw = function() {
+    ctx.beginPath();
+    ctx.strokeStyle = this.color;
+    ctx.lineWidth = 3;
+    ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
+    ctx.stroke(); //現在のストローク・スタイルを使って、サブパスに線を引きます。
+  };
+  EvilCircle.prototype.checkBounds = function() {
+    if((this.x + this.size) >= width) {
+      this.x -= this.size;
+    }
+    if((this.x - this.size) <= 0) {
+      this.x += this.size;
+    }
+    if((this.y + this.size) >= height) {
+      this.y -= this.size;
+    }
+    if((this.y - this.size) <= 0) {
+      this.y += this.size;
+    }
+  };
+  EvilCircle.prototype.setControls = function() {
+    var _this = this;
+    window.onkeydown = function(e) {//サークルを動かす
+      if(e.keyCode === 65) { // a
+        _this.x -= _this.velX;
+      } else if(e.keyCode === 68) { // d
+        _this.x += _this.velX;
+      } else if(e.keyCode === 87) { // w
+        _this.y -= _this.velY;
+      } else if(e.keyCode === 83) { // s
+        _this.y += _this.velY;
+      }
+    };
+  };
+  EvilCircle.prototype.collisionDetect = function() {
+    for(var j = 0; j < balls.length; j++) {
+      if( balls[j].exists ) {
+        var dx = this.x - balls[j].x,
+          dy = this.y - balls[j].y,
+          distance = Math.sqrt(dx * dx + dy * dy);
+        if (distance < this.size + balls[j].size) {
+          balls[j].exists = false;
+          count--;
+          para.textContent = 'Ball count: ' + count;
+        }
+      }
+    }
+  };
+  var balls = [];
+  var evil = new EvilCircle(random(0,width), random(0,height), true);
+  evil.setControls();
+  function loop() {
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.25)';//"次のフレームを描く前に、前のフレームで描いた内容を見えなくする。長い蛇がキャンバスの中を這い回る様を見る事になります!"
+    ctx.fillRect(0, 0, width, height); //"キャンバスの塗り潰し色を半透明の黒にし、その色でキャンバスの幅と高さいっぱいの長方形を fillRect() で描きます"
+    while (balls.length < 25) {
+      var size = random(10,20),
+        ball = new Ball(
+        // "ball position always drawn at least one ball width"
+        // "away from the adge of the canvas, to avoid drawing errors"
+        random(0 + size,width - size),
+        random(0 + size,height - size),
+        random(-7,7),
+        random(-7,7),
+        true,
+        'rgb(' + random(0,255) + ',' + random(0,255) + ',' + random(0,255) +')',
+        size
+      );
+      balls.push(ball); //"配列の末尾に作成したボール情報を格納。これを25回繰り返す。"
+      count++;
+      para.textContent = 'Ball count: ' + count;
+    }
+    for (var i = 0; i < balls.length; i++) {
+      if(balls[i].exists) {
+        balls[i].draw();
+        balls[i].update();
+        balls[i].collisionDetect();
+      }
+    }
+    evil.draw();
+    evil.checkBounds();
+    evil.collisionDetect();
+    requestAnimationFrame(loop);
+  };
+  loop();
+}());</script><pre style="background-color: rgb(240, 240, 240);">// &lt;= a ↑ww →d ↓s
+window.addEventListener('DOMContentLoaded', function() {
+  var para = document.querySelector('div.java14 &gt; p'),
+    count = 0,
+    canvas = document.querySelector('div.java14 &gt; canvas'),
+    ctx = canvas.getContext("2d"),
+    width = canvas.width,
+    height = canvas.height,
+    div_java14 = document.querySelector('div.java14');
+  div_java14.style.width = width + "px";
+  div_java14.style.height = height + "px";
+  function random(min, max) {
+    var num = Math.floor(Math.random() * (max - min + 1)) + min;
+    return num;
+  }
+  function Shape(x, y, velX, velY,exists) {
+    this.x = x;
+    this.y = y;
+    this.velX = velX; //"個々のボールには水平と垂直方向の速度が与えら、これらの値が x/y座標値に定期的に加算され、各フレームでこの値だけ移動。"
+    this.velY = velY;
+    this.exists = exists;
+  }
+  function Ball(x, y, velX, velY, exists, color, size) {
+    Shape.call(this,x, y, velX, velY,exists);
+    this.color = color;
+    this.size = size;//"個々のボールには大きさがあります ? ピクセルを単位とする半径で表わします。"
+  };
+  Ball.prototype = Object.create(Shape.prototype);
+  Ball.prototype.constructor = Ball;
+  Ball.prototype.draw = function() {
+    ctx.beginPath(); //"まずは、beginPath() を使って紙に形を描きたいと宣言します。"
+    ctx.fillStyle = this.color; //"fillStyle を使って形を何色にしたいか宣言"
+    ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI); //"arc() メソッドを使って紙に円弧形をなぞります"
+    ctx.fill(); //"beginPath() から描き始めた線描を終了し、描いた領域を前に fillStyle で指定していた色で塗り潰せという指示"
+  };
+  Ball.prototype.update = function() {
+    if ((this.x + this.size) &gt;= width) {
+      this.velX = -(this.velX);
+    }
+    if ((this.x - this.size) &lt;= 0) {
+      this.velX = -(this.velX);
+    }
+    if ((this.y + this.size) &gt;= height) {
+      this.velY = -(this.velY);
+    }
+    if ((this.y - this.size) &lt;= 0) {
+      this.velY = -(this.velY);
+    }
+    this.x += this.velX;
+    this.y += this.velY;
+  };
+  Ball.prototype.collisionDetect = function() {
+    for (var j = 0; j &lt; balls.length; j++) {
+      if (!(this === balls[j])) {//" if文でループで回しているボールがチェックしているボールと同じか調べています"
+        var dx = this.x - balls[j].x, //"二つの円が衝突していないか調べるためのアルゴリズム。円の領域が重なっているかチェック"
+          dy = this.y - balls[j].y,
+          distance = Math.sqrt(dx * dx + dy * dy);
+        if (distance &lt; this.size + balls[j].size) {
+          balls[j].color = this.color = 'rgb(' + random(0, 255) + ',' + random(0, 255) + ',' + random(0, 255) +')';
+        }
+      }
+    }
+  };
+  function EvilCircle(x, y, exists) {
+    Shape.call(this, x, y, 20, 20, exists);
+    this.color = 'white';
+    this.size = 10;
+  }
+  EvilCircle.prototype = Object.create(Shape.prototype);
+  EvilCircle.prototype.constructor = EvilCircle;
+  EvilCircle.prototype.draw = function() {
+    ctx.beginPath();
+    ctx.strokeStyle = this.color;
+    ctx.lineWidth = 3;
+    ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
+    ctx.stroke(); //現在のストローク・スタイルを使って、サブパスに線を引きます。
+  };
+  EvilCircle.prototype.checkBounds = function() {
+    if((this.x + this.size) &gt;= width) {
+      this.x -= this.size;
+    }
+    if((this.x - this.size) &lt;= 0) {
+      this.x += this.size;
+    }
+    if((this.y + this.size) &gt;= height) {
+      this.y -= this.size;
+    }
+    if((this.y - this.size) &lt;= 0) {
+      this.y += this.size;
+    }
+  };
+  EvilCircle.prototype.setControls = function() {
+    var _this = this;
+    window.onkeydown = function(e) {//サークルを動かす
+      if(e.keyCode === 65) { // a
+        _this.x -= _this.velX;
+      } else if(e.keyCode === 68) { // d
+        _this.x += _this.velX;
+      } else if(e.keyCode === 87) { // w
+        _this.y -= _this.velY;
+      } else if(e.keyCode === 83) { // s
+        _this.y += _this.velY;
+      }
+    };
+  };
+  EvilCircle.prototype.collisionDetect = function() {
+    for(var j = 0; j &lt; balls.length; j++) {
+      if( balls[j].exists ) {
+        var dx = this.x - balls[j].x,
+          dy = this.y - balls[j].y,
+          distance = Math.sqrt(dx * dx + dy * dy);
+        if (distance &lt; this.size + balls[j].size) {
+          balls[j].exists = false;
+          count--;
+          para.textContent = 'Ball count: ' + count;
+        }
+      }
+    }
+  };
+  var balls = [];
+  var evil = new EvilCircle(random(0,width), random(0,height), true);
+  evil.setControls();
+  function loop() {
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.25)';//"次のフレームを描く前に、前のフレームで描いた内容を見えなくする。長い蛇がキャンバスの中を這い回る様を見る事になります!"
+    ctx.fillRect(0, 0, width, height); //"キャンバスの塗り潰し色を半透明の黒にし、その色でキャンバスの幅と高さいっぱいの長方形を fillRect() で描きます"
+    while (balls.length &lt; 25) {
+      var size = random(10,20),
+        ball = new Ball(
+        // "ball position always drawn at least one ball width"
+        // "away from the adge of the canvas, to avoid drawing errors"
+        random(0 + size,width - size),
+        random(0 + size,height - size),
+        random(-7,7),
+        random(-7,7),
+        true,
+        'rgb(' + random(0,255) + ',' + random(0,255) + ',' + random(0,255) +')',
+        size
+      );
+      balls.push(ball); //"配列の末尾に作成したボール情報を格納。これを25回繰り返す。"
+      count++;
+      para.textContent = 'Ball count: ' + count;
+    }
+    for (var i = 0; i &lt; balls.length; i++) {
+      if(balls[i].exists) {
+        balls[i].draw();
+        balls[i].update();
+        balls[i].collisionDetect();
+      }
+    }
+    evil.draw();
+    evil.checkBounds();
+    evil.collisionDetect();
+    requestAnimationFrame(loop);
+  };
+  loop();
+}());</pre><p>---java15-基本的なDOM操作--</p><div class="java15"><section><img alt="A red Tyrannosaurus Rex: A two legged dinosaur standing upright like a human, with small arms, and a large head with lots of sharp teeth." src="./Dictionary_files/dinosaur.png"><p class="highlight">We hope you enjoyed the ride.</p></section></div><script>window.addEventListener('load', function() {
+  var java15 = document.querySelector('div.java15'),
+    link = java15.querySelector('a');
+  link.textContent = 'Mozilla Developer Network';
+  link.href = 'https://developer.mozilla.org';
+  var sect = java15.querySelector('section'),
+    para = document.createElement('p');
+  para.textContent = 'We hope you enjoyed the ride.';
+  sect.appendChild(para);
+  var text = document.createTextNode(' ? the premier source for web development knowledge.'),
+    linkPara = java15.querySelector('p');
+  linkPara.appendChild(text);
+  sect.appendChild(linkPara);
+  linkPara.parentNode.removeChild(linkPara);
+  para.setAttribute('class', 'highlight');
+//para.style.color = 'white';
+//para.style.backgroundColor = 'black';
+//para.style.padding = '10px';
+//para.style.width = '250px';
+//para.style.textAlign = 'center';
+}());</script><pre style="background-color: rgb(240, 240, 240);">window.addEventListener('load', function() {
+  var java15 = document.querySelector('div.java15'),
+    link = java15.querySelector('a');
+  link.textContent = 'Mozilla Developer Network';
+  link.href = 'https://developer.mozilla.org';
+  var sect = java15.querySelector('section'),
+    para = document.createElement('p');
+  para.textContent = 'We hope you enjoyed the ride.';
+  sect.appendChild(para);
+  var text = document.createTextNode(' ? the premier source for web development knowledge.'),
+    linkPara = java15.querySelector('p');
+  linkPara.appendChild(text);
+  sect.appendChild(linkPara);
+  linkPara.parentNode.removeChild(linkPara);
+  para.setAttribute('class', 'highlight');
+//para.style.color = 'white';
+//para.style.backgroundColor = 'black';
+//para.style.padding = '10px';
+//para.style.width = '250px';
+//para.style.textAlign = 'center';
+}());</pre><div class="java16" style="width: 320px; height: 149.6px;"></div><script>window.addEventListener("DOMContentLoaded", function(){
+  var div = document.querySelector('.java16');
+    WIDTH = window.innerWidth,
+    HEIGHT = window.innerHeight;
+  div.style.width = WIDTH / 10 + 'px';
+  div.style.height = HEIGHT / 10 + 'px';
+  window.onresize = function() { //windows サイズが変わるごとに発火。
+    WIDTH = window.innerWidth;
+    HEIGHT = window.innerHeight;
+    div.style.width = WIDTH / 5 + 'px';
+    div.style.height = HEIGHT / 5 + 'px';
+  };
+}());</script><pre style="background-color: rgb(240, 240, 240);">window.addEventListener("DOMContentLoaded", function(){
+  var div = document.querySelector('.java16');
+    WIDTH = window.innerWidth,
+    HEIGHT = window.innerHeight;
+  div.style.width = WIDTH / 10 + 'px';
+  div.style.height = HEIGHT / 10 + 'px';
+  window.onresize = function() { //windows サイズが変わるごとに発火。
+    WIDTH = window.innerWidth;
+    HEIGHT = window.innerHeight;
+    div.style.width = WIDTH / 5 + 'px';
+    div.style.height = HEIGHT / 5 + 'px';
+  };
+}());</pre><div class="java17"><h1>My shopping list</h1><div><label for="item">Enter a new item:</label><input id="item" name="item" type="text"><button>Add item</button></div><ul></ul></div><script>window.addEventListener("DOMContentLoaded", function(){
+  var java17 = document.querySelector(".java17"),
+    input  = java17.querySelector("input"),
+    button = java17.querySelector("button"),
+    list   = java17.querySelector("ul");
+  button.onclick = function(){
+    input_value = input.value;
+    input.value = "";
+    var listItem = document.createElement('li'),
+        listText = document.createElement('span'),
+        listBtn = document.createElement("button");
+    list.appendChild(listItem)
+    listItem.appendChild(listText);
+    listItem.appendChild(listBtn);
+    listText.textContent = input_value;
+    listBtn.textContent = "削除";
+    listBtn.onclick = function(e){
+      list.removeChild(listItem);
+    };
+  input.focus();
+  };
+}());</script><pre style="background-color: rgb(240, 240, 240);">window.addEventListener("DOMContentLoaded", function(){
+  var java17 = document.querySelector(".java17"),
+    input  = java17.querySelector("input"),
+    button = java17.querySelector("button"),
+    list   = java17.querySelector("ul");
+  button.onclick = function(){
+    input_value = input.value;
+    input.value = "";
+    var listItem = document.createElement('li'),
+        listText = document.createElement('span'),
+        listBtn = document.createElement("button");
+    list.appendChild(listItem)
+    listItem.appendChild(listText);
+    listItem.appendChild(listBtn);
+    listText.textContent = input_value;
+    listBtn.textContent = "削除";
+    listBtn.onclick = function(e){
+      list.removeChild(listItem);
+    };
+  input.focus();
+  };
+}());</pre><div class="java18"><div class="js-btn">btn1</div><div class="js-child">panel1</div><div class="js-btn">btn2</div><div class="js-child">panel2</div><div class="js-btn">btn3</div><div class="js-child">panel4</div></div><script>window.addEventListener("DOMContentLoaded", function(){
+  var java18 = document.querySelector(".java18"),
+    divs = java18.querySelectorAll(".js-btn")
+  for(var i = 0; i < divs.length; i++) {
+    divs[i].onclick = function() {
+      $(this).next().slideToggle('fast');
+      }
+  };
+  //for (var i = 0; i < 5; i++) {
+  //  (function(i){
+  //    $('.js-btn'+i).click(function(){
+  //      $(this).next('.js-child'+i).slideToggle('fast');
+  //    });
+  //  })(i); // 即時関数
+  //}
+}());</script><pre style="background-color: rgb(240, 240, 240);">window.addEventListener("DOMContentLoaded", function(){
+  var java18 = document.querySelector(".java18"),
+    divs = java18.querySelectorAll(".js-btn")
+  for(var i = 0; i &lt; divs.length; i++) {
+    divs[i].onclick = function() {
+      $(this).next().slideToggle('fast');
+      }
+  };
+  //for (var i = 0; i &lt; 5; i++) {
+  //  (function(i){
+  //    $('.js-btn'+i).click(function(){
+  //      $(this).next('.js-child'+i).slideToggle('fast');
+  //    });
+  //  })(i); // 即時関数
+  //}
+}());</pre><div class="java19"><h1>Ajax starting point</h1><form><label for="verse-choose">Choose a verse</label><select id="verse-choose" name="verse-choose"><option>Verse 1</option><option>Verse 2</option><option>Verse 3</option><option>Verse 4</option></select></form><h2>The Conqueror Worm, <em>Edgar Allen Poe, 1843</em></h2><div class="pre">
+ロー！ガラナイト
+   寂しい後者の年以内に！
+天使の群れ
+   ベールの中で、そして涙の中で溺れた、
+見るために、劇場に座ってください
+   希望と恐れの遊び
+オーケストラがうまく呼吸している間
+   球の音楽
+上の神の形をしたマイム、
+   つぶやくと低音、
+そして飛んでも、飛んでも -
+   行ったり来たりする彼らだけの人形
+広大な形のないものの入札時
+   それは景色をあちこちにシフトさせます、
+彼らのコンドル翼から羽ばたき
+   目に見えない悲劇！
+
+</div></div><script>window.addEventListener("DOMContentLoaded", function(){
+  var java19 = document.querySelector(".java19"),
+    verseChoose = java19.querySelector('select'),
+    poemDisplay = java19.querySelector('.pre');
+  verseChoose.onchange = function() {
+    var verse = verseChoose.value;
+    updateDisplay(verse);
+  };
+  function updateDisplay(verse){
+    verse = verse.replace(" ", "");
+    verse = verse.toLowerCase();
+    var url = "/webshops/" + verse ,
+      request = new XMLHttpRequest();
+    request.open('GET', url);
+    request.responseType = 'text';
+    request.send();
+    request.onload = function() {
+      poemDisplay.textContent = request.response;
+    };
+  };
+updateDisplay('Verse 1');
+verseChoose.value = 'Verse 1';
+}());</script><pre style="background-color: rgb(240, 240, 240);">window.addEventListener("DOMContentLoaded", function(){
+  var java19 = document.querySelector(".java19"),
+    verseChoose = java19.querySelector('select'),
+    poemDisplay = java19.querySelector('.pre');
+  verseChoose.onchange = function() {
+    var verse = verseChoose.value;
+    updateDisplay(verse);
+  };
+  function updateDisplay(verse){
+    verse = verse.replace(" ", "");
+    verse = verse.toLowerCase();
+    var url = "/webshops/" + verse ,
+      request = new XMLHttpRequest();
+    request.open('GET', url);
+    request.responseType = 'text';
+    request.send();
+    request.onload = function() {
+      poemDisplay.textContent = request.response;
+    };
+  };
+updateDisplay('Verse 1');
+verseChoose.value = 'Verse 1';
+}());</pre><div class="java20"><div class="body"><header><h1>The Can Store</h1></header><div><aside><form><div><label for="category">Choose a category:</label><select id="category"><option selected="">All</option><option>Vegetables</option><option>Meat</option><option>Soup</option></select></div><div><label for="searchTerm">Enter search term:</label><input id="searchTerm" placeholder="e.g. beans" type="text"></div><div><button>Filter results</button></div></form></aside><main><section class="vegetables"><h2>Baked beans</h2><p>$0.40</p><img src="blob:http://localhost:3000/3af16211-7669-450b-b44c-0b0e432ba1af" alt="baked beans"></section><section class="meat"><h2>Hot dogs</h2><p>$1.99</p><img src="blob:http://localhost:3000/3b0fee63-6fd4-4c4c-b48f-e8070d78dbd0" alt="hot dogs"></section><section class="vegetables"><h2>Kidney beans</h2><p>$0.58</p><img src="blob:http://localhost:3000/07645596-9812-43bb-a85c-0b331bd4ae91" alt="kidney beans"></section><section class="vegetables"><h2>Refried beans</h2><p>$0.99</p><img src="blob:http://localhost:3000/e0b3d798-5a46-4d42-8bb2-6b9a98e3fc88" alt="refried beans"></section><section class="meat"><h2>Spam</h2><p>$2.85</p><img src="blob:http://localhost:3000/18b9e7aa-7e84-4732-a000-ecb4879bf955" alt="spam"></section><section class="vegetables"><h2>Mushy peas</h2><p>$0.58</p><img src="blob:http://localhost:3000/f9419df2-aa67-4f3a-9305-153605278941" alt="mushy peas"></section><section class="vegetables"><h2>Garden peas</h2><p>$0.52</p><img src="blob:http://localhost:3000/fc2496ec-c956-4fe5-9adb-fff542a62d5e" alt="garden peas"></section><section class="meat"><h2>Corned beef</h2><p>$2.39</p><img src="blob:http://localhost:3000/97559c17-99ae-4e95-a892-c388567a3d88" alt="corned beef"></section><section class="vegetables"><h2>Chopped tomatoes</h2><p>$0.45</p><img src="blob:http://localhost:3000/b5b05942-a14a-42db-8716-0435d8bb51cf" alt="chopped tomatoes"></section><section class="soup"><h2>Chicken noodle soup</h2><p>$1.89</p><img src="blob:http://localhost:3000/ad3b05f6-96d4-45aa-b8e4-6fac18b5be2e" alt="chicken noodle soup"></section><section class="soup"><h2>Tomato soup</h2><p>$1.40</p><img src="blob:http://localhost:3000/c1c29ff2-f5f5-411a-a5e9-2aa7f017e587" alt="tomato soup"></section><section class="soup"><h2>Carrot and coriander soup</h2><p>$1.49</p><img src="blob:http://localhost:3000/bb7f3d35-6b7d-427f-84f6-47fd25458e37" alt="carrot and coriander soup"></section></main></div><footer><p>All icons found at the Noun Project:</p><ul><li>Bean can icon by<a href="https://thenounproject.com/yalanis/">Yazmin Alanis</a></li><li>Vegetable icon by<a href="https://thenounproject.com/skatakila/">Ricardo Moreira</a></li><li>Soup icon by<a href="https://thenounproject.com/ArtZ91/">Arthur Shlain</a></li><li>Meat Chunk icon by<a href="https://thenounproject.com/smashicons/">Oliviu Stoian.</a></li></ul></footer></div></div><script>window.addEventListener("DOMContentLoaded", function(){
+  var products;
+  fetch('/webshops/products.json').then(function(response) {
+    return response.json();
+  }).then(function(json) {
+    products = json;
+    initialize();
+  }).catch(function(err) {
+    //console.log('Fetch problem: ' + err.message);
+  });
+  function initialize() {
+    var java20 = document.querySelector(".java20"),
+      category = java20.querySelector('#category'),
+      searchTerm = java20.querySelector('#searchTerm'),
+      searchBtn = java20.querySelector('button'),
+      main = java20.querySelector('main'),
+      lastCategory = category.value,
+      lstSearch = '',
+      categoryGroup,
+      finalGroup;
+    finalGroup = products;
+    updateDisplay();
+    categoryGroup = [];
+    finalGroup = [];
+    searchBtn.onclick = selectCategory;
+    function selectCategory(e) {
+      e.preventDefault();
+      categoryGroup = [];
+      finalGroup = [];
+      if(category.value === lastCategory && searchTerm.value.trim() === lastSearch) {
+        return;
+      } else {
+        lastCategory = category.value;
+        lastSearch = searchTerm.value.trim();
+        if(category.value === 'All') {
+          categoryGroup = products;
+          selectProducts();
+        } else {
+          var lowerCaseType = category.value.toLowerCase();
+          for(var i = 0; i < products.length ; i++) {
+            if(products[i].type === lowerCaseType) {
+              categoryGroup.push(products[i]);
+            }
+          }
+          selectProducts();
+        }
+      }
+    }
+    function selectProducts() {
+      if(searchTerm.value.trim() === '') {
+        finalGroup = categoryGroup;
+        updateDisplay();
+      } else {
+        var lowerCaseSearchTerm = searchTerm.value.trim().toLowerCase();
+        for(var i = 0; i < categoryGroup.length ; i++) {
+          if(categoryGroup[i].name.indexOf(lowerCaseSearchTerm) !== -1) {
+            finalGroup.push(categoryGroup[i]);
+          }
+        }
+        updateDisplay();
+      }
+    }
+    function updateDisplay() {
+      while (main.firstChild) {
+        main.removeChild(main.firstChild);
+      }
+      if(finalGroup.length === 0) {
+        var para = document.createElement('p');
+        para.textContent = 'No results to display!';
+        main.appendChild(para);
+      } else {
+        for(var i = 0; i < finalGroup.length; i++) {
+          fetchBlob(finalGroup[i]);
+        }
+      }
+    }
+    function fetchBlob(product) {
+      var url = product.image;
+      fetch(url).then(function(response) {
+          return response.blob();
+      }).then(function(blob) {
+        var objectURL = URL.createObjectURL(blob);
+        showProduct(objectURL, product);
+      });
+    }
+    function showProduct(objectURL, product) {
+      var section = document.createElement('section'),
+        heading = document.createElement('h2'),
+        para = document.createElement('p'),
+        image = document.createElement('img');
+      section.setAttribute('class', product.type);
+      heading.textContent = product.name.replace(product.name.charAt(0), product.name.charAt(0).toUpperCase());
+      para.textContent = '$' + product.price.toFixed(2);
+      image.src = objectURL;
+      image.alt = product.name;
+      main.appendChild(section);
+      section.appendChild(heading);
+      section.appendChild(para);
+      section.appendChild(image);
+    }
+  }
+}());</script><pre style="background-color: rgb(240, 240, 240);">window.addEventListener("DOMContentLoaded", function(){
+  var products;
+  fetch('/webshops/products.json').then(function(response) {
+    return response.json();
+  }).then(function(json) {
+    products = json;
+    initialize();
+  }).catch(function(err) {
+    //console.log('Fetch problem: ' + err.message);
+  });
+  function initialize() {
+    var java20 = document.querySelector(".java20"),
+      category = java20.querySelector('#category'),
+      searchTerm = java20.querySelector('#searchTerm'),
+      searchBtn = java20.querySelector('button'),
+      main = java20.querySelector('main'),
+      lastCategory = category.value,
+      lstSearch = '',
+      categoryGroup,
+      finalGroup;
+    finalGroup = products;
+    updateDisplay();
+    categoryGroup = [];
+    finalGroup = [];
+    searchBtn.onclick = selectCategory;
+    function selectCategory(e) {
+      e.preventDefault();
+      categoryGroup = [];
+      finalGroup = [];
+      if(category.value === lastCategory &amp;&amp; searchTerm.value.trim() === lastSearch) {
+        return;
+      } else {
+        lastCategory = category.value;
+        lastSearch = searchTerm.value.trim();
+        if(category.value === 'All') {
+          categoryGroup = products;
+          selectProducts();
+        } else {
+          var lowerCaseType = category.value.toLowerCase();
+          for(var i = 0; i &lt; products.length ; i++) {
+            if(products[i].type === lowerCaseType) {
+              categoryGroup.push(products[i]);
+            }
+          }
+          selectProducts();
+        }
+      }
+    }
+    function selectProducts() {
+      if(searchTerm.value.trim() === '') {
+        finalGroup = categoryGroup;
+        updateDisplay();
+      } else {
+        var lowerCaseSearchTerm = searchTerm.value.trim().toLowerCase();
+        for(var i = 0; i &lt; categoryGroup.length ; i++) {
+          if(categoryGroup[i].name.indexOf(lowerCaseSearchTerm) !== -1) {
+            finalGroup.push(categoryGroup[i]);
+          }
+        }
+        updateDisplay();
+      }
+    }
+    function updateDisplay() {
+      while (main.firstChild) {
+        main.removeChild(main.firstChild);
+      }
+      if(finalGroup.length === 0) {
+        var para = document.createElement('p');
+        para.textContent = 'No results to display!';
+        main.appendChild(para);
+      } else {
+        for(var i = 0; i &lt; finalGroup.length; i++) {
+          fetchBlob(finalGroup[i]);
+        }
+      }
+    }
+    function fetchBlob(product) {
+      var url = product.image;
+      fetch(url).then(function(response) {
+          return response.blob();
+      }).then(function(blob) {
+        var objectURL = URL.createObjectURL(blob);
+        showProduct(objectURL, product);
+      });
+    }
+    function showProduct(objectURL, product) {
+      var section = document.createElement('section'),
+        heading = document.createElement('h2'),
+        para = document.createElement('p'),
+        image = document.createElement('img');
+      section.setAttribute('class', product.type);
+      heading.textContent = product.name.replace(product.name.charAt(0), product.name.charAt(0).toUpperCase());
+      para.textContent = '$' + product.price.toFixed(2);
+      image.src = objectURL;
+      image.alt = product.name;
+      main.appendChild(section);
+      section.appendChild(heading);
+      section.appendChild(para);
+      section.appendChild(image);
+    }
+  }
+}());</pre><div class="java21"><div class="body"><h1>Simple Mapquest example</h1><div id="map"></div></div></div><script>//window.addEventListener("DOMContentLoaded", function(){
+//  var L;
+//  L.mapquest.key = 'aYAobeNKJJo3QVUGWJEDRSMTtdj6Wots';
+//  L.mapquest.map('map', {
+//    center: [37.7749, -122.4194],
+//    layers: L.mapquest.tileLayer('map'),
+//    zoom: 12
+//  });
+//}());</script><pre style="background-color: rgb(240, 240, 240);">//window.addEventListener("DOMContentLoaded", function(){
+//  var L;
+//  L.mapquest.key = 'aYAobeNKJJo3QVUGWJEDRSMTtdj6Wots';
+//  L.mapquest.map('map', {
+//    center: [37.7749, -122.4194],
+//    layers: L.mapquest.tileLayer('map'),
+//    zoom: 12
+//  });
+//}());</pre><div class="java22"><div class="body"><canvas class="myCanvas" width="1600" height="748"><p>Add suitable fallback here.</p></canvas><canvas class="myCanvas2" width="1600" height="748"></canvas><canvas class="myCanvas3" width="1600" height="748"></canvas><canvas class="myCanvas4" width="1600" height="748"></canvas><canvas class="myCanvas5" width="1600" height="748"></canvas></div></div><script>window.addEventListener("DOMContentLoaded", function(){
+  var java22 = document.querySelector(".java22"),
+    canvas = java22.querySelector('.myCanvas'),
+    width = canvas.width = window.innerWidth,
+    height = canvas.height = window.innerHeight,
+    ctx = canvas.getContext('2d');
+  ctx.fillStyle = 'rgb(0, 0, 0)';//キャンバスの塗りつぶしの色。
+  ctx.fillRect(0, 0, width, height);//座標ｘ,座標y,横の長さと,縦の長さ。塗りつぶしを行う。
+  ctx.fillStyle = 'rgb(255, 0, 0)';//赤色の長方形の作図。
+  ctx.fillRect(50, 50, 100, 150);
+  ctx.fillStyle = 'rgb(0, 255, 0)';//緑色の正方形の作図。
+  ctx.fillRect(75, 75, 100, 100);
+  ctx.fillStyle = 'rgba(255, 0, 255, 0.75)';//透明度を追加した長方形
+  ctx.fillRect(25, 100, 175, 50);
+  ctx.strokeStyle = 'rgb(255, 255, 255)';//外枠のみの長方形
+  ctx.strokeRect(25, 25, 175, 200);
+  var canvas2 = java22.querySelector('.myCanvas2'),
+    width2 = canvas2.width = window.innerWidth,
+    height2 = canvas2.height = window.innerHeight,
+    ctx2 = canvas2.getContext('2d');
+  ctx2.fillStyle = 'rgb(0, 0, 0)';
+  ctx2.fillRect(0, 0, width2, height2);
+  function degToRad(degrees) {
+    return degrees * Math.PI / 180;//度数値をラジアンに変換する。
+  };
+  ctx2.fillStyle = 'rgb(255, 0, 0)';
+  ctx2.beginPath();//ペンが現在あるポイントから描写をスタート。（０，０）から始まる。
+  ctx2.moveTo(50, 50);//ペンを移動させる。ここで指定された箇所は描写されない。
+  ctx2.lineTo(150, 50);//x軸に100px描写する。
+  var triHeight = 50 * Math.tan(degToRad(60));//高さは底辺×タンジェントで出る。
+  ctx2.lineTo(100, 50+triHeight);//x軸に50px戻り、ｙ軸に約85px移動する。
+  ctx2.lineTo(50, 50);//x軸、ｙ軸共にスタート地点に戻る。
+  ctx2.fill();//軌跡を描写する。
+  ctx2.fillStyle = 'rgb(0, 0, 255)';
+  ctx2.beginPath();
+  ctx2.arc(150, 106, 50, degToRad(0), degToRad(360), false);//x,y、半径、円の開始角度、円の終了角度、falseは時計回り、trueは反時計回り。
+  ctx2.fill();
+  ctx2.fillStyle = 'yellow';
+  ctx2.beginPath();
+  ctx2.arc(200, 106, 50, degToRad(-45), degToRad(45), true);
+  ctx2.lineTo(200, 106);
+  ctx2.fill();
+  ctx2.strokeStyle = 'white';
+  ctx2.lineWidth = 1;
+  ctx2.font = '100px arial';
+  ctx2.strokeText('Canvas text', 350, 350);
+  ctx2.fillStyle = 'red';
+  ctx2.font = '100px georgia';
+  ctx2.fillText('Canvas text', 350, 450);
+  var canvas3 = java22.querySelector('.myCanvas3'),
+    image = new Image(),
+    width3 = canvas3.width = window.innerWidth,
+    height3 = canvas3.height = window.innerHeight,
+    ctx3 = canvas3.getContext('2d');
+  ctx3.fillStyle = 'rgb(0, 0, 0)';
+  ctx3.fillRect(0, 0, width3, height3);
+  image.src = '/assets/firefox.png';
+  image.onload = function() {
+    ctx3.drawImage(image, 20, 20,185,175,50,50,185,175);
+  //パラメータ2と3は、イメージ自体の左上隅を基準にして、ロードしたイメージから切り取りたい領域の左上隅の座標を定義します。
+  //最初のパラメータの左側や2番目のパラメータの上には何も描画されません。パラメータ4と5は、読み込んだ元の画像から切り出す領域の幅と高さを定義します。
+  //パラメータ6と7は、キャンバスの左上隅を基準にして、画像の切り取り部分の左上隅を描画する座標を定義します。
+  //パラメータ8と9は、画像の切り取り領域を描画するための幅と高さを定義します。この場合、元のスライスと同じサイズを指定しましたが、異なる値を指定してサイズを変更できます。
+  };
+  var canvas4 = java22.querySelector('.myCanvas4'),
+    width4 = canvas4.width = window.innerWidth,
+    height4 = canvas4.height = window.innerHeight,
+    ctx4 = canvas4.getContext('2d');
+  ctx4.fillStyle = 'rgb(0, 0, 0)';
+  ctx4.fillRect(0, 0, width3, height3);
+  ctx4.translate(width4/2, height4/2);//描写位置を真ん中に変更。moveToとの違いが分からない。
+  function degToRad(degrees) {
+    return degrees * Math.PI / 180;
+  };
+  function rand(min, max) {
+    return Math.floor(Math.random() * (max-min+1)) + (min);
+  }
+  var length = 250,
+    moveOffset = 20;
+  for(var i = 0; i < length; i++) {
+    ctx4.fillStyle = 'rgba(' + (255-length) + ', 0, ' + (255-length) + ', 0.9)';//下でlengthを引いているため。ループが進むごとに色が明るくなる。
+    ctx4.beginPath();
+    ctx4.moveTo(moveOffset, moveOffset);//新しい三角形を書くたびに移動する。
+    ctx4.lineTo(moveOffset+length, moveOffset);
+    var triHeight = length/2 * Math.tan(degToRad(60));
+    ctx4.lineTo(moveOffset+(length/2), moveOffset+triHeight);
+    ctx4.lineTo(moveOffset, moveOffset);
+    ctx4.fill();
+    length--;
+    moveOffset += 0.7;
+    ctx4.rotate(degToRad(5));//5度ほど回転させながら描写している。
+  }
+  var canvas5 = java22.querySelector('.myCanvas5'),
+    width5 = canvas5.width = window.innerWidth,
+    height5 = canvas5.height = window.innerHeight,
+    ctx5 = canvas5.getContext('2d');
+  ctx5.fillStyle = 'rgb(0, 0, 0)';
+  ctx5.fillRect(0, 0, width5, height5);
+  ctx5.translate(width/2, height/2);
+  var image2 = new Image();
+    sprite = 0,
+    posX = 0,
+  image2.src = '/assets/walk-right.png';//102×148の画像が６個描かれている。
+  image2.onload = draw;
+  function draw() {
+    ctx5.fillRect(-(width/2), -(height/2), width, height);
+    ctx5.drawImage(image2, (sprite*102), 0, 102, 148, 0+posX, -74, 102, 148);
+    //102の倍数で画像を区切る（sprite値は0～5）。y軸は常に0。y軸を入れると画像が上から切れていく。
+    //パラメータ4と5は、切り出すスライスのサイズ（102ピクセル×148ピクセル）を指定します。
+    //パラメータ6と7は、キャンバスにスライスを描画するボックスの左上隅を指定します。X位置は0 +posX。つまり、posX値を変更することで描画位置を変更できます。
+    //パラメーター8と9は、キャンバス上のイメージのサイズを指定します。元のサイズをそのままにしたいので、幅と高さとして102と148を指定します。
+    if (posX % 13 === 0) {//13フレームごとに、または1秒間に約5フレームだけスプライトを更新。数値が大きくなるとそれだけ更新間隔が空く。
+      if (sprite === 5) {
+        sprite = 0;
+      } else {
+        sprite++;
+      }
+    }
+    if(posX > width/2) {//スタートが中央からなので右端から飛び出す。
+      newStartPos = -((width/2) + 102);
+      posX = Math.ceil(newStartPos / 13) * 13;//Math.cellは引数として与えた数以上の最小の整数を返します。
+     // console.log(posX);
+    } else {
+      posX += 2;
+    }
+    window.requestAnimationFrame(draw);
+  };
+}());</script><pre style="background-color: rgb(240, 240, 240);">window.addEventListener("DOMContentLoaded", function(){
+  var java22 = document.querySelector(".java22"),
+    canvas = java22.querySelector('.myCanvas'),
+    width = canvas.width = window.innerWidth,
+    height = canvas.height = window.innerHeight,
+    ctx = canvas.getContext('2d');
+  ctx.fillStyle = 'rgb(0, 0, 0)';//キャンバスの塗りつぶしの色。
+  ctx.fillRect(0, 0, width, height);//座標ｘ,座標y,横の長さと,縦の長さ。塗りつぶしを行う。
+  ctx.fillStyle = 'rgb(255, 0, 0)';//赤色の長方形の作図。
+  ctx.fillRect(50, 50, 100, 150);
+  ctx.fillStyle = 'rgb(0, 255, 0)';//緑色の正方形の作図。
+  ctx.fillRect(75, 75, 100, 100);
+  ctx.fillStyle = 'rgba(255, 0, 255, 0.75)';//透明度を追加した長方形
+  ctx.fillRect(25, 100, 175, 50);
+  ctx.strokeStyle = 'rgb(255, 255, 255)';//外枠のみの長方形
+  ctx.strokeRect(25, 25, 175, 200);
+  var canvas2 = java22.querySelector('.myCanvas2'),
+    width2 = canvas2.width = window.innerWidth,
+    height2 = canvas2.height = window.innerHeight,
+    ctx2 = canvas2.getContext('2d');
+  ctx2.fillStyle = 'rgb(0, 0, 0)';
+  ctx2.fillRect(0, 0, width2, height2);
+  function degToRad(degrees) {
+    return degrees * Math.PI / 180;//度数値をラジアンに変換する。
+  };
+  ctx2.fillStyle = 'rgb(255, 0, 0)';
+  ctx2.beginPath();//ペンが現在あるポイントから描写をスタート。（０，０）から始まる。
+  ctx2.moveTo(50, 50);//ペンを移動させる。ここで指定された箇所は描写されない。
+  ctx2.lineTo(150, 50);//x軸に100px描写する。
+  var triHeight = 50 * Math.tan(degToRad(60));//高さは底辺×タンジェントで出る。
+  ctx2.lineTo(100, 50+triHeight);//x軸に50px戻り、ｙ軸に約85px移動する。
+  ctx2.lineTo(50, 50);//x軸、ｙ軸共にスタート地点に戻る。
+  ctx2.fill();//軌跡を描写する。
+  ctx2.fillStyle = 'rgb(0, 0, 255)';
+  ctx2.beginPath();
+  ctx2.arc(150, 106, 50, degToRad(0), degToRad(360), false);//x,y、半径、円の開始角度、円の終了角度、falseは時計回り、trueは反時計回り。
+  ctx2.fill();
+  ctx2.fillStyle = 'yellow';
+  ctx2.beginPath();
+  ctx2.arc(200, 106, 50, degToRad(-45), degToRad(45), true);
+  ctx2.lineTo(200, 106);
+  ctx2.fill();
+  ctx2.strokeStyle = 'white';
+  ctx2.lineWidth = 1;
+  ctx2.font = '100px arial';
+  ctx2.strokeText('Canvas text', 350, 350);
+  ctx2.fillStyle = 'red';
+  ctx2.font = '100px georgia';
+  ctx2.fillText('Canvas text', 350, 450);
+  var canvas3 = java22.querySelector('.myCanvas3'),
+    image = new Image(),
+    width3 = canvas3.width = window.innerWidth,
+    height3 = canvas3.height = window.innerHeight,
+    ctx3 = canvas3.getContext('2d');
+  ctx3.fillStyle = 'rgb(0, 0, 0)';
+  ctx3.fillRect(0, 0, width3, height3);
+  image.src = '/assets/firefox.png';
+  image.onload = function() {
+    ctx3.drawImage(image, 20, 20,185,175,50,50,185,175);
+  //パラメータ2と3は、イメージ自体の左上隅を基準にして、ロードしたイメージから切り取りたい領域の左上隅の座標を定義します。
+  //最初のパラメータの左側や2番目のパラメータの上には何も描画されません。パラメータ4と5は、読み込んだ元の画像から切り出す領域の幅と高さを定義します。
+  //パラメータ6と7は、キャンバスの左上隅を基準にして、画像の切り取り部分の左上隅を描画する座標を定義します。
+  //パラメータ8と9は、画像の切り取り領域を描画するための幅と高さを定義します。この場合、元のスライスと同じサイズを指定しましたが、異なる値を指定してサイズを変更できます。
+  };
+  var canvas4 = java22.querySelector('.myCanvas4'),
+    width4 = canvas4.width = window.innerWidth,
+    height4 = canvas4.height = window.innerHeight,
+    ctx4 = canvas4.getContext('2d');
+  ctx4.fillStyle = 'rgb(0, 0, 0)';
+  ctx4.fillRect(0, 0, width3, height3);
+  ctx4.translate(width4/2, height4/2);//描写位置を真ん中に変更。moveToとの違いが分からない。
+  function degToRad(degrees) {
+    return degrees * Math.PI / 180;
+  };
+  function rand(min, max) {
+    return Math.floor(Math.random() * (max-min+1)) + (min);
+  }
+  var length = 250,
+    moveOffset = 20;
+  for(var i = 0; i &lt; length; i++) {
+    ctx4.fillStyle = 'rgba(' + (255-length) + ', 0, ' + (255-length) + ', 0.9)';//下でlengthを引いているため。ループが進むごとに色が明るくなる。
+    ctx4.beginPath();
+    ctx4.moveTo(moveOffset, moveOffset);//新しい三角形を書くたびに移動する。
+    ctx4.lineTo(moveOffset+length, moveOffset);
+    var triHeight = length/2 * Math.tan(degToRad(60));
+    ctx4.lineTo(moveOffset+(length/2), moveOffset+triHeight);
+    ctx4.lineTo(moveOffset, moveOffset);
+    ctx4.fill();
+    length--;
+    moveOffset += 0.7;
+    ctx4.rotate(degToRad(5));//5度ほど回転させながら描写している。
+  }
+  var canvas5 = java22.querySelector('.myCanvas5'),
+    width5 = canvas5.width = window.innerWidth,
+    height5 = canvas5.height = window.innerHeight,
+    ctx5 = canvas5.getContext('2d');
+  ctx5.fillStyle = 'rgb(0, 0, 0)';
+  ctx5.fillRect(0, 0, width5, height5);
+  ctx5.translate(width/2, height/2);
+  var image2 = new Image();
+    sprite = 0,
+    posX = 0,
+  image2.src = '/assets/walk-right.png';//102×148の画像が６個描かれている。
+  image2.onload = draw;
+  function draw() {
+    ctx5.fillRect(-(width/2), -(height/2), width, height);
+    ctx5.drawImage(image2, (sprite*102), 0, 102, 148, 0+posX, -74, 102, 148);
+    //102の倍数で画像を区切る（sprite値は0～5）。y軸は常に0。y軸を入れると画像が上から切れていく。
+    //パラメータ4と5は、切り出すスライスのサイズ（102ピクセル×148ピクセル）を指定します。
+    //パラメータ6と7は、キャンバスにスライスを描画するボックスの左上隅を指定します。X位置は0 +posX。つまり、posX値を変更することで描画位置を変更できます。
+    //パラメーター8と9は、キャンバス上のイメージのサイズを指定します。元のサイズをそのままにしたいので、幅と高さとして102と148を指定します。
+    if (posX % 13 === 0) {//13フレームごとに、または1秒間に約5フレームだけスプライトを更新。数値が大きくなるとそれだけ更新間隔が空く。
+      if (sprite === 5) {
+        sprite = 0;
+      } else {
+        sprite++;
+      }
+    }
+    if(posX &gt; width/2) {//スタートが中央からなので右端から飛び出す。
+      newStartPos = -((width/2) + 102);
+      posX = Math.ceil(newStartPos / 13) * 13;//Math.cellは引数として与えた数以上の最小の整数を返します。
+     // console.log(posX);
+    } else {
+      posX += 2;
+    }
+    window.requestAnimationFrame(draw);
+  };
+}());</pre><div class="java23"><div class="body"><div class="toolbar"><input aria-label="select pen color" type="color" value="#f6b73c"><input aria-label="select pen size" max="50" min="2" type="range" value="30"><span class="output">30</span><button>Clear canvas</button></div><canvas class="myCanvas" width="1600" height="663"><p>Add suitable fallback here.</p></canvas></div></div><script>window.addEventListener("DOMContentLoaded", function(){
+  var java23 = document.querySelector(".java23"),
+    canvas = java23.querySelector('.myCanvas'),
+    width = canvas.width = window.innerWidth,
+    height = canvas.height = window.innerHeight-85,
+    ctx = canvas.getContext('2d');
+  ctx.fillStyle = 'rgb(0,0,0)';
+  ctx.fillRect(0,0,width,height);
+  var colorPicker = java23.querySelector('input[type="color"]'),
+    sizePicker = java23.querySelector('input[type="range"]'),
+    output = java23.querySelector('.output'),
+    clearBtn = java23.querySelector('button');
+  // covert degrees to radians
+  function degToRad(degrees) {
+    return degrees * Math.PI / 180;
+  };
+  // update sizepicker output value
+  sizePicker.oninput = function() {
+    output.textContent = sizePicker.value;
+  };
+  // store mouse pointer coordinates, and whether the button is pressed
+  var curX,
+    curY,
+    pressed = false;
+  // update mouse pointer coordinates
+  canvas.onmousemove = function(e) {
+    curX = (window.Event) ? e.pageX : e.clientX + (document.documentElement.scrollLeft ? document.documentElement.scrollLeft : document.body.scrollLeft);
+    curY = (window.Event) ? e.pageY : e.clientY + (document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop);
+  };
+  canvas.onmousedown = function() {
+    pressed = true;
+  };
+  canvas.onmouseup = function() {
+    pressed = false;
+  };
+  clearBtn.onclick = function() {
+    ctx.fillStyle = 'rgb(0,0,0)';
+    ctx.fillRect(0,0,width,height);
+  };
+  function draw() {
+    if(pressed) {
+      ctx.fillStyle = colorPicker.value;
+      ctx.beginPath();
+      ctx.arc(curX, curY-85, sizePicker.value, degToRad(0), degToRad(360), false);
+      ctx.fill();
+    };
+    requestAnimationFrame(draw);
+  };
+  draw();
+}());</script><pre style="background-color: rgb(240, 240, 240);">window.addEventListener("DOMContentLoaded", function(){
+  var java23 = document.querySelector(".java23"),
+    canvas = java23.querySelector('.myCanvas'),
+    width = canvas.width = window.innerWidth,
+    height = canvas.height = window.innerHeight-85,
+    ctx = canvas.getContext('2d');
+  ctx.fillStyle = 'rgb(0,0,0)';
+  ctx.fillRect(0,0,width,height);
+  var colorPicker = java23.querySelector('input[type="color"]'),
+    sizePicker = java23.querySelector('input[type="range"]'),
+    output = java23.querySelector('.output'),
+    clearBtn = java23.querySelector('button');
+  // covert degrees to radians
+  function degToRad(degrees) {
+    return degrees * Math.PI / 180;
+  };
+  // update sizepicker output value
+  sizePicker.oninput = function() {
+    output.textContent = sizePicker.value;
+  };
+  // store mouse pointer coordinates, and whether the button is pressed
+  var curX,
+    curY,
+    pressed = false;
+  // update mouse pointer coordinates
+  canvas.onmousemove = function(e) {
+    curX = (window.Event) ? e.pageX : e.clientX + (document.documentElement.scrollLeft ? document.documentElement.scrollLeft : document.body.scrollLeft);
+    curY = (window.Event) ? e.pageY : e.clientY + (document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop);
+  };
+  canvas.onmousedown = function() {
+    pressed = true;
+  };
+  canvas.onmouseup = function() {
+    pressed = false;
+  };
+  clearBtn.onclick = function() {
+    ctx.fillStyle = 'rgb(0,0,0)';
+    ctx.fillRect(0,0,width,height);
+  };
+  function draw() {
+    if(pressed) {
+      ctx.fillStyle = colorPicker.value;
+      ctx.beginPath();
+      ctx.arc(curX, curY-85, sizePicker.value, degToRad(0), degToRad(360), false);
+      ctx.fill();
+    };
+    requestAnimationFrame(draw);
+  };
+  draw();
+}());</pre><div class="java24"><canvas width="1600" height="748" style="width: 1600px; height: 748px;"></canvas></div><script>window.addEventListener("DOMContentLoaded", function(){
+  var scene = new THREE.Scene();
+  var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 3, 1000);
+  //引数１カメラの正面のどれくらいの広さが画面に表示されるか。
+  //縦横比
+  //ニアプレーン。カメラオブジェクトにどれぐらい近づけるか。
+  //ファープレーン。レンダリングされなくなるまでにカメラから遠くにあるもの。
+  var java24 = document.querySelector(".java24");
+  camera.position.z = 5;
+  var renderer = new THREE.WebGLRenderer();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  java24.appendChild(renderer.domElement);
+  var cube;
+  var loader = new THREE.TextureLoader();
+  //loader.load( '/assets/metal003.png', function (texture) {
+    loader.load( '/assets/image.png', function (texture) {
+    texture.wrapS = THREE.RepeatWrapping;
+      texture.wrapT = THREE.RepeatWrapping;
+      //texture.repeat.set(2, 2);
+    texture.repeat.set(1, 1);
+    var geometry = new THREE.BoxGeometry(2.4,2.4,2.4);
+      var material = new THREE.MeshLambertMaterial( { map: texture, shading: THREE.FlatShading } );
+      cube = new THREE.Mesh(geometry, material);
+      scene.add(cube);
+      draw();
+  });
+  var light = new THREE.AmbientLight('rgb(255,255,255)'); // soft white light
+  scene.add(light);
+  var spotLight = new THREE.SpotLight('rgb(255,255,255)');
+  spotLight.position.set( 100, 1000, 1000 );
+  spotLight.castShadow = true;
+  scene.add(spotLight);
+  function draw() {
+    cube.rotation.x += 0.01;
+    cube.rotation.y += 0.01;
+    renderer.render(scene, camera);
+      requestAnimationFrame(draw);
+  }
+}());</script><pre style="background-color: rgb(240, 240, 240);">window.addEventListener("DOMContentLoaded", function(){
+  var scene = new THREE.Scene();
+  var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 3, 1000);
+  //引数１カメラの正面のどれくらいの広さが画面に表示されるか。
+  //縦横比
+  //ニアプレーン。カメラオブジェクトにどれぐらい近づけるか。
+  //ファープレーン。レンダリングされなくなるまでにカメラから遠くにあるもの。
+  var java24 = document.querySelector(".java24");
+  camera.position.z = 5;
+  var renderer = new THREE.WebGLRenderer();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  java24.appendChild(renderer.domElement);
+  var cube;
+  var loader = new THREE.TextureLoader();
+  //loader.load( '/assets/metal003.png', function (texture) {
+    loader.load( '/assets/image.png', function (texture) {
+    texture.wrapS = THREE.RepeatWrapping;
+      texture.wrapT = THREE.RepeatWrapping;
+      //texture.repeat.set(2, 2);
+    texture.repeat.set(1, 1);
+    var geometry = new THREE.BoxGeometry(2.4,2.4,2.4);
+      var material = new THREE.MeshLambertMaterial( { map: texture, shading: THREE.FlatShading } );
+      cube = new THREE.Mesh(geometry, material);
+      scene.add(cube);
+      draw();
+  });
+  var light = new THREE.AmbientLight('rgb(255,255,255)'); // soft white light
+  scene.add(light);
+  var spotLight = new THREE.SpotLight('rgb(255,255,255)');
+  spotLight.position.set( 100, 1000, 1000 );
+  spotLight.castShadow = true;
+  scene.add(spotLight);
+  function draw() {
+    cube.rotation.x += 0.01;
+    cube.rotation.y += 0.01;
+    renderer.render(scene, camera);
+      requestAnimationFrame(draw);
+  }
+}());</pre><div class="java25"><div class="player"><video><source src="/assets/sintel-short.mp4" type="video/mp4"><source src="/assets/sintel-short.webm" type="video/webm"></video><div class="controls" style="visibility: visible;"><button aria-label="play pause toggle" class="play" data-icon="P"></button><button aria-label="stop" class="stop" data-icon="S"></button><div class="timer"><div></div><span aria-label="timer">00:00</span></div><button aria-label="rewind" class="rwd" data-icon="B"></button><button aria-label="fast forward" class="fwd" data-icon="F"></button></div></div></div><script>window.addEventListener("DOMContentLoaded", function(){
+  var java25 = document.querySelector(".java25"),
+    media = java25.querySelector('video'),
+    controls = java25.querySelector('.controls'),
+    play = java25.querySelector('.play'),
+    stop = java25.querySelector('.stop'),
+    rwd = java25.querySelector('.rwd'),
+    fwd = java25.querySelector('.fwd'),
+    timerWrapper = java25.querySelector('.timer'),
+    timer = java25.querySelector('.timer span'),
+    timerBar = java25.querySelector('.timer div');
+  media.removeAttribute('controls');
+  controls.style.visibility = 'visible';
+  play.addEventListener('click', playPauseMedia);
+  stop.addEventListener('click', stopMedia);
+  media.addEventListener('ended', stopMedia);
+  rwd.addEventListener('click', mediaBackward);
+  fwd.addEventListener('click', mediaForward);
+  media.addEventListener('timeupdate', setTime);
+  function playPauseMedia() {
+    rwd.classList.remove('active');
+    fwd.classList.remove('active');
+    clearInterval(intervalRwd);
+    clearInterval(intervalFwd);
+    if(media.paused) {
+      play.setAttribute('data-icon','u');
+      media.play();
+    } else {
+      play.setAttribute('data-icon','P');
+      media.pause();
+    }
+  }
+  function stopMedia() {
+    media.pause();
+    media.currentTime = 0;
+    rwd.classList.remove('active');
+    fwd.classList.remove('active');
+    clearInterval(intervalRwd);
+    clearInterval(intervalFwd);
+    play.setAttribute('data-icon','P');
+  }
+  var intervalFwd;
+  var intervalRwd;
+  function mediaBackward() {
+    clearInterval(intervalFwd);
+    fwd.classList.remove('active');
+    if(rwd.classList.contains('active')) {
+      rwd.classList.remove('active');
+      clearInterval(intervalRwd);
+      media.play();
+    } else {
+      rwd.classList.add('active');
+      media.pause();
+      intervalRwd = setInterval(windBackward, 200);
+    }
+  }
+  function mediaForward() {
+    clearInterval(intervalRwd);
+    rwd.classList.remove('active');
+    if(fwd.classList.contains('active')) {
+      fwd.classList.remove('active');
+      clearInterval(intervalFwd);
+      media.play();
+    } else {
+      fwd.classList.add('active');
+      media.pause();
+      intervalFwd = setInterval(windForward, 200);
+    }
+  }
+  function windBackward() {
+    if(media.currentTime <= 3) {
+      stopMedia();
+    } else {
+      media.currentTime -= 3;
+    }
+  }
+  function windForward() {
+    if(media.currentTime >= media.duration - 3) {
+      stopMedia();
+    } else {
+      media.currentTime += 3;
+    }
+  }
+  function setTime() {
+    var minutes = Math.floor(media.currentTime / 60);
+    var seconds = Math.floor(media.currentTime - minutes * 60);
+    var minuteValue;
+    var secondValue;
+    if (minutes < 10) {
+      minuteValue = '0' + minutes;
+    } else {
+      minuteValue = minutes;
+    }
+    if (seconds < 10) {
+      secondValue = '0' + seconds;
+    } else {
+      secondValue = seconds;
+    }
+    var mediaTime = minuteValue + ':' + secondValue;
+    timer.textContent = mediaTime;
+    var barLength = timerWrapper.clientWidth * (media.currentTime/media.duration);
+    timerBar.style.width = barLength + 'px';
+  }
+}());</script><pre style="background-color: rgb(240, 240, 240);">window.addEventListener("DOMContentLoaded", function(){
+  var java25 = document.querySelector(".java25"),
+    media = java25.querySelector('video'),
+    controls = java25.querySelector('.controls'),
+    play = java25.querySelector('.play'),
+    stop = java25.querySelector('.stop'),
+    rwd = java25.querySelector('.rwd'),
+    fwd = java25.querySelector('.fwd'),
+    timerWrapper = java25.querySelector('.timer'),
+    timer = java25.querySelector('.timer span'),
+    timerBar = java25.querySelector('.timer div');
+  media.removeAttribute('controls');
+  controls.style.visibility = 'visible';
+  play.addEventListener('click', playPauseMedia);
+  stop.addEventListener('click', stopMedia);
+  media.addEventListener('ended', stopMedia);
+  rwd.addEventListener('click', mediaBackward);
+  fwd.addEventListener('click', mediaForward);
+  media.addEventListener('timeupdate', setTime);
+  function playPauseMedia() {
+    rwd.classList.remove('active');
+    fwd.classList.remove('active');
+    clearInterval(intervalRwd);
+    clearInterval(intervalFwd);
+    if(media.paused) {
+      play.setAttribute('data-icon','u');
+      media.play();
+    } else {
+      play.setAttribute('data-icon','P');
+      media.pause();
+    }
+  }
+  function stopMedia() {
+    media.pause();
+    media.currentTime = 0;
+    rwd.classList.remove('active');
+    fwd.classList.remove('active');
+    clearInterval(intervalRwd);
+    clearInterval(intervalFwd);
+    play.setAttribute('data-icon','P');
+  }
+  var intervalFwd;
+  var intervalRwd;
+  function mediaBackward() {
+    clearInterval(intervalFwd);
+    fwd.classList.remove('active');
+    if(rwd.classList.contains('active')) {
+      rwd.classList.remove('active');
+      clearInterval(intervalRwd);
+      media.play();
+    } else {
+      rwd.classList.add('active');
+      media.pause();
+      intervalRwd = setInterval(windBackward, 200);
+    }
+  }
+  function mediaForward() {
+    clearInterval(intervalRwd);
+    rwd.classList.remove('active');
+    if(fwd.classList.contains('active')) {
+      fwd.classList.remove('active');
+      clearInterval(intervalFwd);
+      media.play();
+    } else {
+      fwd.classList.add('active');
+      media.pause();
+      intervalFwd = setInterval(windForward, 200);
+    }
+  }
+  function windBackward() {
+    if(media.currentTime &lt;= 3) {
+      stopMedia();
+    } else {
+      media.currentTime -= 3;
+    }
+  }
+  function windForward() {
+    if(media.currentTime &gt;= media.duration - 3) {
+      stopMedia();
+    } else {
+      media.currentTime += 3;
+    }
+  }
+  function setTime() {
+    var minutes = Math.floor(media.currentTime / 60);
+    var seconds = Math.floor(media.currentTime - minutes * 60);
+    var minuteValue;
+    var secondValue;
+    if (minutes &lt; 10) {
+      minuteValue = '0' + minutes;
+    } else {
+      minuteValue = minutes;
+    }
+    if (seconds &lt; 10) {
+      secondValue = '0' + seconds;
+    } else {
+      secondValue = seconds;
+    }
+    var mediaTime = minuteValue + ':' + secondValue;
+    timer.textContent = mediaTime;
+    var barLength = timerWrapper.clientWidth * (media.currentTime/media.duration);
+    timerBar.style.width = barLength + 'px';
+  }
+}());</pre><div class="java26"><div class="body"><div class="header"><h1>Welcome to our website </h1><form><div class="remember" style="display: block;"><label for="entername">Enter your name:</label><input id="entername" type="text">required<input id="submitname" type="submit" value="Say hello"></div><div class="forget" style="display: none;"><label for="forgetname">Want me to forget you?</label><input id="forgetname" type="reset" value="Forget"></div></form></div><main><p class="personal-greeting">Welcome to our website. We hope you have fun while you are here.</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam malesuada, metus ut mollis volutpat, felis est rhoncus turpis, in blandit est risus malesuada dui. Phasellus tempus elit at purus vestibulum suscipit. Donec quis est nec dui pretium venenatis sit amet eu nulla. Donec finibus, ipsum non semper dignissim, massa magna sagittis est, vitae vehicula nunc magna vitae diam. Integer ultrices mauris aliquet arcu tempor, at mattis justo sagittis. Nunc ut nulla et erat viverra tincidunt. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer vitae bibendum justo. Vestibulum porta velit sit amet libero accumsan fermentum.</p><p>Ut id mauris urna. In sed porttitor lectus. Suspendisse dignissim dolor id lectus pellentesque, eu bibendum lectus malesuada. Phasellus volutpat sollicitudin suscipit. Donec id libero nisl. Praesent gravida purus vel euismod facilisis. Maecenas sit amet velit non lacus aliquam dictum vitae eu augue. Donec euismod enim elementum elit laoreet sodales. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p><p>Integer vulputate, libero sed vulputate eleifend, magna libero malesuada ligula, sit amet tincidunt dui mi vitae mauris. Aliquam aliquam turpis mauris, in sagittis orci rutrum efficitur. Sed vel purus fringilla, pretium sapien sed, accumsan erat. Morbi scelerisque tempor purus in faucibus. Nunc fringilla nulla ut aliquam posuere. Vivamus id lectus eleifend, bibendum urna non, ornare nibh. Fusce bibendum vulputate mollis.</p></main><div class="footer"><p>Copyright nobody. Use the code as you like.</p></div></div></div><script>window.addEventListener("DOMContentLoaded", function(){
+  let java26 = document.querySelector(".java26");
+  const rememberDiv = java26.querySelector('.remember'),
+    forgetDiv = java26.querySelector('.forget'),
+    form = java26.querySelector('form'),
+    nameInput = java26.querySelector('#entername'),
+    submitBtn = java26.querySelector('#submitname'),
+    forgetBtn = java26.querySelector('#forgetname'),
+    h1 = java26.querySelector('h1'),
+    personalGreeting = java26.querySelector('.personal-greeting');
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();//formの機能を無効にする。
+  });
+  submitBtn.addEventListener('click', function() {
+    localStorage.setItem('name', nameInput.value);
+    nameDisplayCheck();
+  });
+  forgetBtn.addEventListener('click', function() {
+    localStorage.removeItem('name');
+    nameDisplayCheck();
+  });
+  function nameDisplayCheck() {
+    if(localStorage.getItem('name')) {
+      let name = localStorage.getItem('name');
+      h1.textContent = 'Welcome, ' + name;
+      personalGreeting.textContent = 'Welcome to our website, ' + name + '! We hope you have fun while you are here.';
+      forgetDiv.style.display = 'block';
+      rememberDiv.style.display = 'none';
+    } else {
+      h1.textContent = 'Welcome to our website ';
+      personalGreeting.textContent = 'Welcome to our website. We hope you have fun while you are here.';
+      forgetDiv.style.display = 'none';
+      rememberDiv.style.display = 'block';
+    }
+  }
+  nameDisplayCheck();
+}());</script><pre style="background-color: rgb(240, 240, 240);">window.addEventListener("DOMContentLoaded", function(){
+  let java26 = document.querySelector(".java26");
+  const rememberDiv = java26.querySelector('.remember'),
+    forgetDiv = java26.querySelector('.forget'),
+    form = java26.querySelector('form'),
+    nameInput = java26.querySelector('#entername'),
+    submitBtn = java26.querySelector('#submitname'),
+    forgetBtn = java26.querySelector('#forgetname'),
+    h1 = java26.querySelector('h1'),
+    personalGreeting = java26.querySelector('.personal-greeting');
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();//formの機能を無効にする。
+  });
+  submitBtn.addEventListener('click', function() {
+    localStorage.setItem('name', nameInput.value);
+    nameDisplayCheck();
+  });
+  forgetBtn.addEventListener('click', function() {
+    localStorage.removeItem('name');
+    nameDisplayCheck();
+  });
+  function nameDisplayCheck() {
+    if(localStorage.getItem('name')) {
+      let name = localStorage.getItem('name');
+      h1.textContent = 'Welcome, ' + name;
+      personalGreeting.textContent = 'Welcome to our website, ' + name + '! We hope you have fun while you are here.';
+      forgetDiv.style.display = 'block';
+      rememberDiv.style.display = 'none';
+    } else {
+      h1.textContent = 'Welcome to our website ';
+      personalGreeting.textContent = 'Welcome to our website. We hope you have fun while you are here.';
+      forgetDiv.style.display = 'none';
+      rememberDiv.style.display = 'block';
+    }
+  }
+  nameDisplayCheck();
+}());</pre><div class="java27"><div class="body"><div class="header"><h1>IndexedDB notes demo</h1></div><main><section class="note-display"><h2>Notes</h2><ul><li>No notes stored.</li></ul></section><section class="new-note"><h2>Enter a new note</h2><form><div><label for="title">Note title</label><input id="title" type="text">required</div><div><label for="body">Note text</label><input id="body" type="text">required</div><div><button>Create new note</button></div></form></section></main><div class="footer"><p>Copyright nobody. Use the code as you like.</p></div></div></div><script>window.addEventListener("DOMContentLoaded", function(){
+  let java27 = document.querySelector(".java27");
+  const list = java27.querySelector('ul'),
+    titleInput = java27.querySelector('#title'),
+    bodyInput = java27.querySelector('#body'),
+    form = java27.querySelector('form'),
+    submitBtn = java27.querySelector('form button');
+  let db,
+    request = window.indexedDB.open('notes', 1);
+  request.onerror = function() {
+   // console.log('Database failed to open');
+  };
+  request.onsuccess = function() {
+    //console.log('Database opened successfully');
+    db = request.result;
+    displayData();
+  };
+  request.onupgradeneeded = function(e) {
+    let db = e.target.result,
+      objectStore = db.createObjectStore('notes', { keyPath: 'id', autoIncrement:true });
+    objectStore.createIndex('title', 'title', { unique: false });
+    objectStore.createIndex('body', 'body', { unique: false });
+    //console.log('Database setup complete');
+  };
+  form.onsubmit = addData;
+  function addData(e) {
+    e.preventDefault();
+    let newItem = { title: titleInput.value, body: bodyInput.value },
+      transaction = db.transaction(['notes'], 'readwrite'),//DBアクセスをし、書き込みを行える。
+      objectStore = transaction.objectStore('notes');//オブジェクトストレージにアクセスし、読み込む。
+    var request = objectStore.add(newItem);//新しいデータをストレージに加える。
+    request.onsuccess = function() {
+      titleInput.value = '';
+      bodyInput.value = '';
+    };
+    transaction.oncomplete = function() {
+     // console.log('Transaction completed: database modification finished.');
+      displayData();
+    };
+    transaction.onerror = function() {
+      //console.log('Transaction not opened due to error');
+    };
+  };
+  function displayData() {
+    while (list.firstChild) {
+      list.removeChild(list.firstChild);//ULコンテンツを空にし、更新。そうしなければ更新のたびに重複したコンテンツリストの追加になる。
+    };
+    let objectStore = db.transaction('notes').objectStore('notes');
+    objectStore.openCursor().onsuccess = function(e) {
+      let cursor = e.target.result;
+      if(cursor) {
+        let listItem = document.createElement('li'),
+          h3 = document.createElement('h3'),
+          para = document.createElement('p');
+        listItem.appendChild(h3);
+        listItem.appendChild(para);
+        list.appendChild(listItem);
+        h3.textContent = cursor.value.title;
+        para.textContent = cursor.value.body;
+        listItem.setAttribute('data-note-id', cursor.value.id);
+        let deleteBtn = document.createElement('button');
+        listItem.appendChild(deleteBtn);
+        deleteBtn.textContent = 'Delete';
+        deleteBtn.onclick = deleteItem;
+        cursor.continue();
+      } else {
+        if(!list.firstChild) {
+          let listItem = document.createElement('li');
+          listItem.textContent = 'No notes stored.';
+          list.appendChild(listItem);
+        };
+      //  console.log('Notes all displayed');
+      };
+    };
+  };
+  function deleteItem(e) {
+    let noteId = Number(e.target.parentNode.getAttribute('data-note-id')),
+      transaction = db.transaction(['notes'], 'readwrite'),
+      objectStore = transaction.objectStore('notes'),
+      request = objectStore.delete(noteId);
+    transaction.oncomplete = function() {
+      e.target.parentNode.parentNode.removeChild(e.target.parentNode);
+      //console.log('Note ' + noteId + ' deleted.');
+      if(!list.firstChild) {
+        let listItem = document.createElement('li');
+        listItem.textContent = 'No notes stored.';
+        list.appendChild(listItem);
+      };
+    };
+  };
+}());</script><pre style="background-color: rgb(240, 240, 240);">window.addEventListener("DOMContentLoaded", function(){
+  let java27 = document.querySelector(".java27");
+  const list = java27.querySelector('ul'),
+    titleInput = java27.querySelector('#title'),
+    bodyInput = java27.querySelector('#body'),
+    form = java27.querySelector('form'),
+    submitBtn = java27.querySelector('form button');
+  let db,
+    request = window.indexedDB.open('notes', 1);
+  request.onerror = function() {
+   // console.log('Database failed to open');
+  };
+  request.onsuccess = function() {
+    //console.log('Database opened successfully');
+    db = request.result;
+    displayData();
+  };
+  request.onupgradeneeded = function(e) {
+    let db = e.target.result,
+      objectStore = db.createObjectStore('notes', { keyPath: 'id', autoIncrement:true });
+    objectStore.createIndex('title', 'title', { unique: false });
+    objectStore.createIndex('body', 'body', { unique: false });
+    //console.log('Database setup complete');
+  };
+  form.onsubmit = addData;
+  function addData(e) {
+    e.preventDefault();
+    let newItem = { title: titleInput.value, body: bodyInput.value },
+      transaction = db.transaction(['notes'], 'readwrite'),//DBアクセスをし、書き込みを行える。
+      objectStore = transaction.objectStore('notes');//オブジェクトストレージにアクセスし、読み込む。
+    var request = objectStore.add(newItem);//新しいデータをストレージに加える。
+    request.onsuccess = function() {
+      titleInput.value = '';
+      bodyInput.value = '';
+    };
+    transaction.oncomplete = function() {
+     // console.log('Transaction completed: database modification finished.');
+      displayData();
+    };
+    transaction.onerror = function() {
+      //console.log('Transaction not opened due to error');
+    };
+  };
+  function displayData() {
+    while (list.firstChild) {
+      list.removeChild(list.firstChild);//ULコンテンツを空にし、更新。そうしなければ更新のたびに重複したコンテンツリストの追加になる。
+    };
+    let objectStore = db.transaction('notes').objectStore('notes');
+    objectStore.openCursor().onsuccess = function(e) {
+      let cursor = e.target.result;
+      if(cursor) {
+        let listItem = document.createElement('li'),
+          h3 = document.createElement('h3'),
+          para = document.createElement('p');
+        listItem.appendChild(h3);
+        listItem.appendChild(para);
+        list.appendChild(listItem);
+        h3.textContent = cursor.value.title;
+        para.textContent = cursor.value.body;
+        listItem.setAttribute('data-note-id', cursor.value.id);
+        let deleteBtn = document.createElement('button');
+        listItem.appendChild(deleteBtn);
+        deleteBtn.textContent = 'Delete';
+        deleteBtn.onclick = deleteItem;
+        cursor.continue();
+      } else {
+        if(!list.firstChild) {
+          let listItem = document.createElement('li');
+          listItem.textContent = 'No notes stored.';
+          list.appendChild(listItem);
+        };
+      //  console.log('Notes all displayed');
+      };
+    };
+  };
+  function deleteItem(e) {
+    let noteId = Number(e.target.parentNode.getAttribute('data-note-id')),
+      transaction = db.transaction(['notes'], 'readwrite'),
+      objectStore = transaction.objectStore('notes'),
+      request = objectStore.delete(noteId);
+    transaction.oncomplete = function() {
+      e.target.parentNode.parentNode.removeChild(e.target.parentNode);
+      //console.log('Note ' + noteId + ' deleted.');
+      if(!list.firstChild) {
+        let listItem = document.createElement('li');
+        listItem.textContent = 'No notes stored.';
+        list.appendChild(listItem);
+      };
+    };
+  };
+}());</pre><div class="java28"><div class="body"><div class="header"><h1>IndexedDB video store</h1></div><main><section><article><h2>crystal</h2><video controls=""><source src="blob:http://localhost:3000/18bc7da3-6548-47a3-822e-3ad517cacd32" type="video/mp4"><source src="blob:http://localhost:3000/50a0dc4a-3e3f-4534-ae81-870ab2747017" type="video/webm"></video></article><article><h2>elf</h2><video controls=""><source src="blob:http://localhost:3000/2de5a1ef-1a96-4e2c-b109-001fd2c72995" type="video/mp4"><source src="blob:http://localhost:3000/e291c882-88ae-415e-9de1-6b7cdc2a442b" type="video/webm"></video></article><article><h2>frog</h2><video controls=""><source src="blob:http://localhost:3000/24067da0-c2a8-4ff2-a203-894fe9d6d7d0" type="video/mp4"><source src="blob:http://localhost:3000/1aae3c34-c896-41b4-8209-ec425dd8f481" type="video/webm"></video></article><article><h2>monster</h2><video controls=""><source src="blob:http://localhost:3000/72553031-6a5d-438e-b8a6-07a3f83f86b1" type="video/mp4"><source src="blob:http://localhost:3000/e6d371c7-dec4-463b-96b0-cff1eebcf8ae" type="video/webm"></video></article><article><h2>pig</h2><video controls=""><source src="blob:http://localhost:3000/43de68b4-137b-4ed0-a7f4-e68b10e440aa" type="video/mp4"><source src="blob:http://localhost:3000/08bbfe50-70a6-469b-ab9e-dee5766710bc" type="video/webm"></video></article><article><h2>rabbit</h2><video controls=""><source src="blob:http://localhost:3000/6614f823-f019-4586-8b13-8300e41a4848" type="video/mp4"><source src="blob:http://localhost:3000/06dea2e2-e551-4c39-940f-53cd3f42dc45" type="video/webm"></video></article></section></main><div class="footer"><p>Copyright nobody. Use the code as you like.</p></div></div></div><script>window.addEventListener("DOMContentLoaded", function(){
+  let java28 = document.querySelector(".java28");
+  const section = java28.querySelector('section'),
+    videos = [
+      { 'name' : 'crystal' },
+      { 'name' : 'elf' },
+      { 'name' : 'frog' },
+      { 'name' : 'monster' },
+      { 'name' : 'pig' },
+      { 'name' : 'rabbit' }
+    ];
+  let db;
+  function init() {
+    for(let i = 0; i < videos.length; i++) {
+      let objectStore = db.transaction('videos').objectStore('videos'),
+        request = objectStore.get(videos[i].name);
+      request.onsuccess = function() {
+        if(request.result) {
+         // console.log('taking videos from IDB');
+          displayVideo(request.result.mp4, request.result.webm, request.result.name);
+        } else {
+          fetchVideoFromNetwork(videos[i]);
+        };
+      };
+    };
+  };
+  function fetchVideoFromNetwork(video) {
+    //console.log('fetching videos from network');
+    let mp4Blob = fetch('/assets/' + video.name + '.mp4').then(response =>
+      response.blob()
+    );
+    let webmBlob = fetch('/assets/' + video.name + '.webm').then(response =>
+      response.blob()
+    );
+    Promise.all([mp4Blob, webmBlob]).then(function(values) {
+      displayVideo(values[0], values[1], video.name);
+      storeVideo(values[0], values[1], video.name);
+    });
+  };
+  function storeVideo(mp4Blob, webmBlob, name) {
+    let objectStore = db.transaction(['videos'], 'readwrite').objectStore('videos'),
+      record = {
+        mp4 : mp4Blob,
+        webm : webmBlob,
+        name : name
+      },
+      request = objectStore.add(record);
+    request.onsuccess = function() {
+      //console.log('Record addition attempt finished');
+    };
+    request.onerror = function() {
+     // console.log(request.error);
+    };
+  };
+  function displayVideo(mp4Blob, webmBlob, title) {
+    let mp4URL = URL.createObjectURL(mp4Blob),
+      webmURL = URL.createObjectURL(webmBlob),
+      article = document.createElement('article'),
+      h2 = document.createElement('h2'),
+      video = document.createElement('video'),
+      source1 = document.createElement('source'),
+      source2 = document.createElement('source');
+    h2.textContent = title;
+    video.controls = true;
+    source1.src = mp4URL;
+    source1.type = 'video/mp4';
+    source2.src = webmURL;
+    source2.type = 'video/webm';
+    section.appendChild(article);
+    article.appendChild(h2);
+    article.appendChild(video);
+    video.appendChild(source1);
+    video.appendChild(source2);
+  };
+  let request = window.indexedDB.open('videos', 1);
+  request.onerror = function() {
+    //console.log('Database failed to open');
+  };
+  request.onsuccess = function() {
+    //console.log('Database opened succesfully');
+    db = request.result;
+    init();
+  };
+  request.onupgradeneeded = function(e) {
+    let db = e.target.result,
+      objectStore = db.createObjectStore('videos', { keyPath: 'name' });
+    objectStore.createIndex('mp4', 'mp4', { unique: false });
+    objectStore.createIndex('webm', 'webm', { unique: false });
+    //console.log('Database setup complete');
+  };
+}());</script><pre style="background-color: rgb(240, 240, 240);">window.addEventListener("DOMContentLoaded", function(){
+  let java28 = document.querySelector(".java28");
+  const section = java28.querySelector('section'),
+    videos = [
+      { 'name' : 'crystal' },
+      { 'name' : 'elf' },
+      { 'name' : 'frog' },
+      { 'name' : 'monster' },
+      { 'name' : 'pig' },
+      { 'name' : 'rabbit' }
+    ];
+  let db;
+  function init() {
+    for(let i = 0; i &lt; videos.length; i++) {
+      let objectStore = db.transaction('videos').objectStore('videos'),
+        request = objectStore.get(videos[i].name);
+      request.onsuccess = function() {
+        if(request.result) {
+         // console.log('taking videos from IDB');
+          displayVideo(request.result.mp4, request.result.webm, request.result.name);
+        } else {
+          fetchVideoFromNetwork(videos[i]);
+        };
+      };
+    };
+  };
+  function fetchVideoFromNetwork(video) {
+    //console.log('fetching videos from network');
+    let mp4Blob = fetch('/assets/' + video.name + '.mp4').then(response =&gt;
+      response.blob()
+    );
+    let webmBlob = fetch('/assets/' + video.name + '.webm').then(response =&gt;
+      response.blob()
+    );
+    Promise.all([mp4Blob, webmBlob]).then(function(values) {
+      displayVideo(values[0], values[1], video.name);
+      storeVideo(values[0], values[1], video.name);
+    });
+  };
+  function storeVideo(mp4Blob, webmBlob, name) {
+    let objectStore = db.transaction(['videos'], 'readwrite').objectStore('videos'),
+      record = {
+        mp4 : mp4Blob,
+        webm : webmBlob,
+        name : name
+      },
+      request = objectStore.add(record);
+    request.onsuccess = function() {
+      //console.log('Record addition attempt finished');
+    };
+    request.onerror = function() {
+     // console.log(request.error);
+    };
+  };
+  function displayVideo(mp4Blob, webmBlob, title) {
+    let mp4URL = URL.createObjectURL(mp4Blob),
+      webmURL = URL.createObjectURL(webmBlob),
+      article = document.createElement('article'),
+      h2 = document.createElement('h2'),
+      video = document.createElement('video'),
+      source1 = document.createElement('source'),
+      source2 = document.createElement('source');
+    h2.textContent = title;
+    video.controls = true;
+    source1.src = mp4URL;
+    source1.type = 'video/mp4';
+    source2.src = webmURL;
+    source2.type = 'video/webm';
+    section.appendChild(article);
+    article.appendChild(h2);
+    article.appendChild(video);
+    video.appendChild(source1);
+    video.appendChild(source2);
+  };
+  let request = window.indexedDB.open('videos', 1);
+  request.onerror = function() {
+    //console.log('Database failed to open');
+  };
+  request.onsuccess = function() {
+    //console.log('Database opened succesfully');
+    db = request.result;
+    init();
+  };
+  request.onupgradeneeded = function(e) {
+    let db = e.target.result,
+      objectStore = db.createObjectStore('videos', { keyPath: 'name' });
+    objectStore.createIndex('mp4', 'mp4', { unique: false });
+    objectStore.createIndex('webm', 'webm', { unique: false });
+    //console.log('Database setup complete');
+  };
+}());</pre><script>window.addEventListener("DOMContentLoaded", function(){
+  var pc = document.querySelectorAll('pre'),
+    jt = document.querySelectorAll('#contents script');
+  for (var i = 0; i < pc.length; i++) {
+    pc[i].textContent = jt[i].textContent;
+    pc[i].style.backgroundColor = '#f0f0f0';
+  };
+}());
+//偶数、奇数のコードを判別し、それぞれに色をつけれる。
+//for (var i = 0; i < pc.length; i++) {
+//  var pc_Split = jt[i].textContent.split('\n');
+//  pc[i].style.backgroundColor = '#f0f0f0';
+//  for(var c = 0; c < pc_Split.length; c++){
+//    var pre_P = document.createElement('p');
+//    pre_P.textContent = pc_Split[c];
+//    pc[i].appendChild(pre_P);
+//  };
+//};</script></div></body></html>

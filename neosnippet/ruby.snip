@@ -1,0 +1,23 @@
+snippet has_many
+abbr 1-any
+  has_many :${1}
+  accepts_nested_attributes_for :$1, allow_destroy: true
+  ${0}
+
+snippet dependent: :destroy
+  dependent: :destroy
+
+snippet belongs_to
+  belongs_to :${1}
+
+snippet byebug
+  byebug
+
+snippet     _attributes
+abbr        params
+options     word
+  _attributes
+
+snippet params
+  params.require(:${1}).to_f
+  ${0}

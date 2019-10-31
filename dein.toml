@@ -1,0 +1,169 @@
+#------------------------------------------------------------
+#vim性能、基本
+#------------------------------------------------------------
+[[plugins]]
+repo = 'Shougo/dein.vim'
+#[[plugins]] #重たい処理を非同期実行にすることにより、ユーザが作業をブロックされることを防ぐ
+#repo = 'Shougo/vimproc.vim'
+
+#Ｃａｔｅｇｅタグの自動更新
+[[plugines]]
+repo = 'szw/vim-tags'
+
+[[plugines]]
+repo = 'vim-ruby/vim-ruby'
+
+[[plugines]]
+repo = 'tpope/vim-rbenv'
+
+[[plugins]]
+repo = 'tpope/vim-bundler'
+#------------------------------------------------------------
+#タブ幅調整 自動調整
+#------------------------------------------------------------
+#[[plugins]]
+#repo = 'myrobo/smart_tabline.vim'
+
+#Windows幅調整。Ctrl + eで開始。hjklで調整。Enterで終了
+[[plugins]]
+repo = 'simeji/winresizer'
+
+[[plugins]] #gS : 1行→複数行  gJ : 複数行→1行（カーソルはブロックの先頭行に置いて実行）
+repo = 'AndrewRadev/splitjoin.vim'
+
+
+#------------------------------------------------------------
+#表示系
+#------------------------------------------------------------
+#無駄な空白を赤く表示。
+[[plugins]]
+repo = 'bronson/vim-trailing-whitespace'
+
+#ステータスラインを見やすく変える。
+[[plugins]]
+repo = 'itchyny/lightline.vim'
+
+#エラーを表示
+[[plugins]]
+repo = 'w0rp/ale'
+
+#英文チェック
+#ZL/Zlコマンド ZLはバッファ内のすべての同じCaseの単語を対象に書き換えますが、Zlはカーソル下の単語だけを修正します。
+#ZC/Zcコマンド Vimのcコマンドのときのような単語の置き換えを行います。 ZCはバッファ内のすべての同じCaseの単語を対象に書き換えますが、Zcはカーソル下の単語だけを修正します。
+
+[[plugins]]
+repo = 'kamykn/spelunker.vim'
+
+#英単語のスペルチェックキャメルケースにも対応Zgで正しい単語として辞書登録。 Zwで間違った単語として登録
+[[plugins]]
+repo = 'kamykn/CCSpellCheck.vim'
+
+#------------------------------------------------------------
+#色付け
+#------------------------------------------------------------
+[[plugins]]
+repo = 'tomasr/molokai'
+
+#インデントに色をつける。
+[[plugins]]
+repo = 'nathanaelkane/vim-indent-guides'
+
+#coffeeスクリプトに色をつける。
+[[plugins]]
+repo = 'kchmck/vim-coffee-script'
+
+#slimに色をつける。
+[[plugins]]
+repo = 'slim-template/vim-slim'
+
+#jsonファイルの色付け
+#[[plugins]]
+#repo = 'elzr/vim-json'
+
+#------------------------------------------------------------
+#検索系
+#------------------------------------------------------------
+[[plugins]]
+repo = 'ctrlpvim/ctrlp.vim'
+
+#関数定義検索。funkyモードに切り替えて使用。
+[[plugins]]
+repo = 'tacahiroy/ctrlp-funky'
+
+[[plugins]]
+repo = 'suy/vim-ctrlp-commandline'
+#ctripの高速化
+[[plugins]]
+repo = 'rking/ag.vim'
+[[plugins]] #g+C-p でヤンク履歴を検索
+repo = 'LeafCage/yankround.vim'
+
+#------------------------------------------------------------
+#入力補助
+#------------------------------------------------------------
+#コメントON/OFFを手軽に実行 Ctrl+-(コントロールキー+ハイフン)を2回押すだけ
+#[[plugins]]
+#repo = 'tomtom/tcomment_vim'
+
+
+#------------------------------------------------------------
+#辞書系
+#------------------------------------------------------------
+#web辞書を引くためのプラグイン
+[[plugins]]
+repo = 'mattn/webapi-vim'
+
+#:excで検索開始
+[[plugins]]
+repo = 'mattn/excitetranslate-vim'
+#------------------------------------------------------------
+#入力補完系
+#------------------------------------------------------------
+#html,CSS補完
+[[plugins]]
+repo = 'mattn/emmet-vim'
+
+# シングルクオートとダブルクオートの入れ替え等
+#[[plugins]]
+#repo = 'tpope/vim-surround'
+
+# Ruby向けにendを自動挿入してくれる
+[[plugins]]
+repo = 'tpope/vim-endwise'
+
+#ruby- dictionary3の単語をneovimプラグインとして変換
+#[[plugins]]
+#repo = 'takkii/Bignyanco'
+
+#ＯＳ辞書を候補に表示。
+#[[plugins]]
+#repo = 'ujihisa/neco-look'
+
+# 入力補助
+[[plugins]]
+repo = 'ervandew/supertab'
+
+[[plugins]]
+repo = 'Shougo/context_filetype.vim'
+
+
+#[[plugins]]
+#repo = 'othree/javascript-libraries-syntax.vim'
+#
+#[[plugins]]
+#repo = 'othree/html5.vim'
+#
+#[[plugins]]
+#repo = 'carlitux/deoplete-ternjs'
+#
+#[[plugins]]
+#repo = 'pangloss/vim-javascript'
+
+[[plugins]]
+repo = 'Shougo/deoplete.nvim'
+# neosnippet----------------
+
+[[plugins]]
+repo = 'Shougo/neosnippet.vim'
+depends = ['neosnippet-snippets', 'context_filetype.vim']
+on_i = 1
