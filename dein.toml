@@ -146,7 +146,6 @@ repo = 'ervandew/supertab'
 [[plugins]]
 repo = 'Shougo/context_filetype.vim'
 
-
 #[[plugins]]
 #repo = 'othree/javascript-libraries-syntax.vim'
 #

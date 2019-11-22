@@ -20,7 +20,7 @@ command! DeleteHideBuffer :call s:delete_hide_buffer()
 "set number " ---行番号を表示
 set autoindent "改行時に前の行のインデントを継続する
 set background=dark " 背景色￢
-set expandtab
+set expandtab  "入力モードでTabキー押下時やインデントの際、タブ文字ではなく、半角スペースが挿入されるようになります。"
 set fileencodings=utf-8,sjis
 set fileformats=unix,dos,mac
 "set foldmethod=indent "インデント自動で折りたたみ生成
@@ -44,13 +44,13 @@ set showmatch " 括弧の対応関係を一瞬表示する
 set showmode " 現在のモードを表示
 set smartcase " 検索パターンに大文字を含んでいたら大文字小文字を区別する
 set smartindent "改行時に入力された行の末尾に合わせて次の行のインデントを増減する
-set smarttab
+set smarttab  "改行時に前の行の行末を見て自動でインデントが挿入される"
 set softtabstop=0
 set spell "スペルチェック
 set syntax=markdown " ---Markdownのハイライト有効---
 au BufRead,BufNewFile *.md set filetype=markdown
 set t_Co=256
-set tabstop=2 " タブ文字の表示幅
+set tabstop=2 " タブページ幅
 set termguicolors
 set whichwrap=b,s,h,l,<,>,[,],~
 set wildmenu " --- コマンドモードの補完
@@ -218,6 +218,15 @@ let g:python3_host_prog = '/home/vagrant/.pyenv/versions/neovim3/bin/python'
 highlight Pmenu ctermbg=8 guibg=#606060
 highlight PmenuSel ctermbg=1 guifg=#dddd00 guibg=#1f82cd
 highlight PmenuSbar ctermbg=0 guibg=#d6d6d6
+
+" ------------------------------------------------------------
+" タブページ幅の設定
+" ------------------------------------------------------------
+augroup AutoColor
+	autocmd!
+	autocmd Colorscheme * highlight! link TabLine Comment
+augroup END
+
 "------------------------------------------------------------
 "neosnippetの設定
 "------------------------------------------------------------

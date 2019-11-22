@@ -1,4 +1,9 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =2
-let g:netrw_dirhist_1='/vagrant/APP/dictionary/app/views'
-let g:netrw_dirhist_2='/vagrant/APP/dictionary/app/views/webshops'
+let g:netrw_dirhist_cnt =7
+let g:netrw_dirhist_1='/vagrant/APP/myrungo/app/controllers'
+let g:netrw_dirhist_2='/vagrant/APP/myrungo/app/assets/javascripts'
+let g:netrw_dirhist_3='/vagrant/APP/myrungo/app/helpers'
+let g:netrw_dirhist_4='/vagrant/APP/myrungo/app/controllers'
+let g:netrw_dirhist_5='/vagrant/APP/myrungo/app/assets/javascripts'
+let g:netrw_dirhist_6='/vagrant/APP/myrungo/app/helpers'
+let g:netrw_dirhist_7='/vagrant/APP/myrungo/app/controllers'
