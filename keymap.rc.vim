@@ -1,17 +1,22 @@
 "------------------------------------------------------------
 "ファイルショートカット
 "------------------------------------------------------------
-nnoremap neo :NeoSnippetEdit<CR>
-nnoremap sneo :tabnew ~/.cache/dein/repos/github.com/Shougo/neosnippet-snippets/neosnippets/<CR>
-nnoremap mt :tabnew /vagrant/APP/dictionary/app/views/webshops/<CR>
-nnoremap mn<CR> :tabnew ~/.config/nvim<CR>
-nnoremap mni :tabnew ~/.config/nvim/init.vim<CR>
-nnoremap mnk :tabnew ~/.config/nvim/keymap.rc.vim<CR>
-nnoremap mnd :tabnew ~/.config/nvim/dein.toml<CR>
-nnoremap mnv :tabnew /vagrant<CR>
-nnoremap md :tabnew ~/.config/nvim/rplugin/python3/deoplete/sources/callneco.py<CR>
 cnoremap k<CR> source ~/.config/nvim/keymap.rc.vim<CR>
 cnoremap i<CR> source ~/.config/nvim/init.vim<CR>
+cnoremap ww w !sudo tee %<CR>
+
+nnoremap neo :vs<CR><C-w>l<ESC>:NeoSnippetEdit<CR>
+nnoremap yml :vs<CR><C-w>l<ESC>:e /vagrant/APP/myrungo/config/locales/ja.yml<CR>
+nnoremap sneo :tabnew ~/.cache/dein/repos/github.com/Shougo/neosnippet-snippets/neosnippets/<CR>
+nnoremap md :tabnew ~/.config/nvim/rplugin/python3/deoplete/sources/callneco.py<CR>
+nnoremap mn<CR> :tabnew ~/.config/nvim<CR>
+nnoremap mnd :tabnew ~/.config/nvim/dein.toml<CR>
+nnoremap mnk :tabnew ~/.config/nvim/keymap.rc.vim<CR>
+nnoremap mni :tabnew ~/.config/nvim/init.vim<CR>
+nnoremap mnt :tabnew /vagrant/APP/dictionary/app/views/webshops/<CR>
+nnoremap mnp :tabnew /vagrant/APP/myrungo/public/<CR>
+nnoremap mnv :tabnew /vagrant<CR>
+
 
 "------------------------------------------------------------
 "入力補助
@@ -78,7 +83,7 @@ nnoremap <TAB> gt
 "タブに移動
 nnoremap <S-tab> gT
 "C-c で新規タブを開く
-nnoremap <C-c> :tabnew<CR>
+nnoremap <C-c> :tabnew<CR>:e.<CR>
 "エンター改行
 nnoremap <CR> i<Return><Esc>
 "空行削除
@@ -108,7 +113,7 @@ inoremap {<CR> {};<Left><Left><CR><ESC><S-o>
 inoremap (<CR> ();<Left><Left><CR><ESC><S-o>
 inoremap [<CR> [];<Left><Left><CR><ESC><S-o>
 "---既存タグにカッコつけ--- 行末にカッコつけ
-inoremap {<TAB> {<Right><ESC>$a}
+
 inoremap (<TAB> (<Right><ESC>$a)
 inoremap [<TAB> [<Right><ESC>$a]
 inoremap "<TAB> "<Right><ESC>$a"

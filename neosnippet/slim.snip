@@ -110,3 +110,15 @@ snippet javascript
 #-----------------------------------------------------------
 snippet byebug
   byebug
+
+snippet binding.pry
+  - binding.pry
+
+#-----------------------------------------------------------
+# render
+#-----------------------------------------------------------
+snippet table_long
+  - th_text = [  ]
+  - td_text = [  ]
+  == render "layouts/table_long", { th_text: th_text, td_text: td_text }
+

@@ -95,7 +95,9 @@ repo = 'suy/vim-ctrlp-commandline'
 #ctripの高速化
 [[plugins]]
 repo = 'rking/ag.vim'
-[[plugins]] #g+C-p でヤンク履歴を検索
+
+#g+C-p でヤンク履歴を検索
+[[plugins]]
 repo = 'LeafCage/yankround.vim'
 
 #------------------------------------------------------------
@@ -105,6 +107,9 @@ repo = 'LeafCage/yankround.vim'
 #[[plugins]]
 #repo = 'tomtom/tcomment_vim'
 
+#%移動の強化。相対する文字へ移動。
+[[plugins]]
+repo = 'andymass/vim-matchup'
 
 #------------------------------------------------------------
 #辞書系

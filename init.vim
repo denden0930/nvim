@@ -1,3 +1,4 @@
+
 "2019/4/25 更新
 set encoding=utf-8
 scriptencoding utf-8
@@ -36,6 +37,7 @@ set noswapfile "swp ファイル
 set notimeout " ---タイムアウトさせない---
 set noundofile "un~ ファイル
 set ruler " ステータスラインの右側にカーソルの現在位置を表示する
+"set relativenumber 処理が重すぎて使えない  行番号を現在位置からの相対的にする。"
 set shiftround
 set shiftwidth=2 "自動インデントでずれる幅
 set showbreak=+++≫  "折り返し行の先頭に表示させる。
@@ -50,13 +52,22 @@ set spell "スペルチェック
 set syntax=markdown " ---Markdownのハイライト有効---
 au BufRead,BufNewFile *.md set filetype=markdown
 set t_Co=256
-set tabstop=2 " タブページ幅
+set tabstop=6 " タブページ幅
 set termguicolors
 set whichwrap=b,s,h,l,<,>,[,],~
 set wildmenu " --- コマンドモードの補完
 set wrapscan
 set write
 source $VIMRUNTIME/macros/matchit.vim " Vimの「%」を拡張する
+" ------------------------------------------------------------
+" 縦方向のｆ移動
+" ------------------------------------------------------------
+command -nargs=1 MyLineSearch let @m=<q-args> | call search('^\s*'. @m)
+command -nargs=1 MyLineBackSearch let @m=<q-args> | call search('^\s*'. @m, 'b')
+nnoremap <Space>f :MyLineSearch<Space>
+nnoremap <Space>F :MyLineBackSearch<Space>
+
+
 "------------------------------------------------------------
 "spell設定
 "------------------------------------------------------------
