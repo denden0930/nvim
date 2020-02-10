@@ -4,6 +4,12 @@
 cnoremap k<CR> source ~/.config/nvim/keymap.rc.vim<CR>
 cnoremap i<CR> source ~/.config/nvim/init.vim<CR>
 cnoremap ww w !sudo tee %<CR>
+"検索した内容を最後尾に移動"
+cnoremap gm g//m$
+"検索した内容を削除"
+cnoremap gd g//d
+"logを見やすく変換"
+cnoremap json %s/,/,\r/g<CR>:<C-u>noh<CR>:%s/{"method/\r---------\r{method/g<CR>:<C-u>noh<CR>
 
 nnoremap neo :vs<CR><C-w>l<ESC>:NeoSnippetEdit<CR>
 nnoremap yml :vs<CR><C-w>l<ESC>:e /vagrant/APP/myrungo/config/locales/ja.yml<CR>
@@ -16,7 +22,6 @@ nnoremap mni :tabnew ~/.config/nvim/init.vim<CR>
 nnoremap mnt :tabnew /vagrant/APP/dictionary/app/views/webshops/<CR>
 nnoremap mnp :tabnew /vagrant/APP/myrungo/public/<CR>
 nnoremap mnv :tabnew /vagrant<CR>
-
 
 "------------------------------------------------------------
 "入力補助
